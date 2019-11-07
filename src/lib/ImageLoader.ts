@@ -6,7 +6,7 @@ function setUrlSource(image: HTMLImageElement, source: string) {
 
 function setFileSource(image: HTMLImageElement, source: File) {
 	var reader = new FileReader();
-	
+
 	reader.onload = (event: any) => {
 		image.src = event.target.result;
 	};
@@ -18,7 +18,11 @@ export default function loadImage(source: string | File): Promise<RasterImage> {
 	return new Promise<RasterImage>((resolve, reject) => {
 		var image = new Image;
 		image.crossOrigin = 'Anonymous';
-		image.onload = () => resolve(new RasterImage(image));
+		image.onload = () => {
+			const rasterImage = new RasterImage;
+			rasterImage.load(image);
+			resolve(rasterImage);
+		};
 		image.onerror = reject;
 
 		if (typeof source == 'string')

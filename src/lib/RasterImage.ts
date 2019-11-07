@@ -1,27 +1,43 @@
 export default class RasterImage {
 	private _canvas: HTMLCanvasElement;
-	private _context: CanvasRenderingContext2D;
 
-	public constructor(image: HTMLImageElement) {
-		const canvas = document.createElement('canvas');
-		const context = canvas.getContext('2d');
+	public constructor() {
+		this._canvas = document.createElement('canvas');
+	}
 
+	public load(image: HTMLImageElement) {
+		this.width = image.width;
+		this.height = image.height;
+
+		this.imageContext.drawImage(image, 0, 0);
+	}
+
+	public get imageContext(): CanvasRenderingContext2D {
+		const context = this._canvas.getContext('2d');
 		if (context == null) throw new Error('Browser is not supported');
+		return context;
+	}
 
-		this._canvas = canvas;
-		this._canvas.width = image.width;
-		this._canvas.height = image.height;
-		
-		this._context = context;
-		this._context.drawImage(image, 0, 0);
+	public get glContext(): WebGLRenderingContext {
+		const context = this._canvas.getContext('webgl');
+		if (context == null) throw new Error('Browser is not supported');
+		return context;
 	}
 
 	public get width(): number {
 		return this._canvas.width;
 	}
 
+	public set width(value: number) {
+		this._canvas.width = value;
+	}
+
 	public get height(): number {
 		return this._canvas.height;
+	}
+
+	public set height(value: number) {
+		this._canvas.height = value;
 	}
 
 	public get canvas(): HTMLCanvasElement {
@@ -29,7 +45,7 @@ export default class RasterImage {
 	}
 
 	public get imageData(): ImageData {
-		return this._context.getImageData(0, 0, this.width, this.height);
+		return this.imageContext.getImageData(0, 0, this.width, this.height);
 	}
 
 	public get url(): string {
