@@ -14,7 +14,7 @@ export default class ImageViewer extends Component<Props, State>
 	public render(): React.ReactNode {
 		return (
 			<div>
-				<img src={this.props.source} />
+				<img src={this.props.source} style={{ maxHeight: 500, maxWidth: 500 }} />
 			</div>
 		);
 	}
