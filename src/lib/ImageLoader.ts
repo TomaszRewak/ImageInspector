@@ -1,3 +1,5 @@
+import RasterImage from "./RasterImage";
+
 function setUrlSource(image: HTMLImageElement, source: string) {
 	image.src = source;
 }
@@ -12,11 +14,11 @@ function setFileSource(image: HTMLImageElement, source: File) {
 	reader.readAsDataURL(source);
 }
 
-export default function loadImage(source: string | File): Promise<HTMLImageElement> {
-	return new Promise<HTMLImageElement>((resolve, reject) => {
+export default function loadImage(source: string | File): Promise<RasterImage> {
+	return new Promise<RasterImage>((resolve, reject) => {
 		var image = new Image;
 		image.crossOrigin = 'Anonymous';
-		image.onload = () => resolve(image);
+		image.onload = () => resolve(new RasterImage(image));
 		image.onerror = reject;
 
 		if (typeof source == 'string')

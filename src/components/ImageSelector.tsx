@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import RasterImage from '../lib/RasterImage';
+import loadImage from '../lib/ImageLoader';
 
-type Props = {};
+type Props = { selected: (image: RasterImage) => void };
 type State = { ready: boolean };
 
 export class ImageSelector extends Component<Props, State> {
-	private _image: RasterImage;
-
 	public constructor(props: Props) {
 		super(props);
-
-		this._image = new RasterImage();
 
 		this.state = {
 			ready: false
@@ -24,13 +21,15 @@ export class ImageSelector extends Component<Props, State> {
 	}
 
 	private _loadImage(source: File | string): void {
-		this._image.load(source).then(this._imageLoaded, this._imageNotLoaded);
+		loadImage(source).then(this._imageLoaded, this._imageNotLoaded);
 	}
 
-	private _imageLoaded(): void {
+	private _imageLoaded(image: RasterImage): void {
 		this.setState({
 			ready: true
 		});
+
+		this.props.selected(image);
 	}
 
 	private _imageNotLoaded(reason: any): void {
@@ -57,7 +56,6 @@ export class ImageSelector extends Component<Props, State> {
 					</label>
 					<input type="file" id="hidden-file-button" onChange={this._imageSelected} style={{ display: 'none' }} />
 				</div>
-				<img src={this._image && this._image.url} />
 			</div>
 		);
 	}
