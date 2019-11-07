@@ -1,0 +1,27 @@
+function setUrlSource(image: HTMLImageElement, source: string) {
+	image.src = source;
+}
+
+function setFileSource(image: HTMLImageElement, source: File) {
+	var reader = new FileReader();
+	
+	reader.onload = (event: any) => {
+		image.src = event.target.result;
+	};
+
+	reader.readAsDataURL(source);
+}
+
+export default function loadImage(source: string | File): Promise<HTMLImageElement> {
+	return new Promise<HTMLImageElement>((resolve, reject) => {
+		var image = new Image;
+		image.crossOrigin = 'Anonymous';
+		image.onload = () => resolve(image);
+		image.onerror = reject;
+
+		if (typeof source == 'string')
+			setUrlSource(image, source);
+		else
+			setFileSource(image, source);
+	});
+}
