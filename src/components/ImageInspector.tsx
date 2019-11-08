@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ImageSelector } from './ImageSelector';
 import RasterImage from '../lib/RasterImage';
 import ImageViewer from './ImageViewer';
+import ImageLayer from './ImageLayer';
 
 type Props = {}
 type State = { image?: RasterImage }
@@ -31,6 +32,7 @@ export default class ImageInspector extends Component<Props, State>
 				{this.state.image &&
 					<ImageViewer source={this.state.image.url} />
 				}
+				<ImageLayer />
 			</div>
 		)
 	}

@@ -10,14 +10,12 @@ export class ImageSelector extends Component<Props, State> {
 		super(props);
 
 		this.state = {
-			ready: false
+			ready: true
 		};
 
 		this._imageLoaded = this._imageLoaded.bind(this);
 		this._imageNotLoaded = this._imageNotLoaded.bind(this);
 		this._imageSelected = this._imageSelected.bind(this);
-
-		this._loadImage("./resources/apple.jpg");
 	}
 
 	private _loadImage(source: File | string): void {
