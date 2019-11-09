@@ -32,7 +32,9 @@ export default class ImageInspector extends Component<Props, State>
 				{this.state.image &&
 					<ImageViewer source={this.state.image.url} />
 				}
-				<ImageLayer />
+				{this.state.image &&
+					<ImageLayer baseImage={this.state.image} />
+				}
 			</div>
 		)
 	}

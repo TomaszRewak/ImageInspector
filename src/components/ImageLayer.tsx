@@ -1,46 +1,60 @@
 import React, { Component } from 'react';
 import RasterImage from '../lib/RasterImage';
 
-type Props = {};
-type State = {};
+type Props = {
+	baseImage: RasterImage
+};
+type State = { };
 
 export default class ImageLayer extends Component<Props, State>
 {
-	private _glImage: RasterImage;
+	state = { };
 
-	public constructor(props: Props) {
-		super(props);
+	componentDidMount() {
+		this.updateCanvas();
+	}
 
-		this.state = {};
+	componentDidUpdate() {
+		this.updateCanvas();
+	}
 
-		this._glImage = new RasterImage();
-		this._glImage.width = 500;
-		this._glImage.height = 500;
+	private updateCanvas() {
+		const image = this.refs.canvas as HTMLCanvasElement;
+		const baseImage = this.props.baseImage;
+		const gl = image.getContext('webgl');
 
-		const gl = this._glImage.glContext;
+		if (gl == null) throw Error();
+
+		image.width = 4160;//baseImage.width;
+		image.height = 3120;//baseImage.height;
 
 		const vertexShaderSource = `
 			attribute vec4 aVertexPosition;
-			
-			varying lowp vec4 pos;
-		
+			attribute vec2 aTexturePosition;
+
+			varying lowp vec4 canvasPosition;
+			varying lowp vec2 texturePosition;
+
 			void main() {
 				gl_Position = aVertexPosition;
-				pos = aVertexPosition;
+				canvasPosition = aVertexPosition;
+				texturePosition = aTexturePosition;
 			}
 		`;
 
 		const fragmentShaderSource = `
-			varying lowp vec4 pos;
+			uniform sampler2D uSampler;
+
+			varying lowp vec4 canvasPosition;
+			varying lowp vec2 texturePosition;
 
 			void main() {
-				gl_FragColor = vec4(pos.x, pos.y, pos.z, 1.0);
+				gl_FragColor = texture2D(uSampler, texturePosition);
 			}
 		`;
 
 		const vertexShader = this.loadShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
 		const fragmentShader = this.loadShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
 		const shaderProgram = gl.createProgram();
 
 		if (shaderProgram == null) throw new Error();
@@ -65,15 +79,26 @@ export default class ImageLayer extends Component<Props, State>
 			new Float32Array(positions),
 			gl.STATIC_DRAW);
 
+		const texture = this.loadTexture(gl, baseImage);
+		const textureCoordBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+		const textureCoordinates = [
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+		];
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
+
 		const programInfo = {
 			program: shaderProgram,
 			attribLocations: {
 				vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+				texturePosition: gl.getAttribLocation(shaderProgram, 'aTexturePosition'),
 			},
-			// uniformLocations: {
-			// 	projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-			// 	modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-			// },
+			uniformLocations: {
+				uSampler: gl.getUniformLocation(shaderProgram, 'uSampler'),
+			},
 		};
 
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -95,7 +120,18 @@ export default class ImageLayer extends Component<Props, State>
 		gl.enableVertexAttribArray(
 			programInfo.attribLocations.vertexPosition);
 
+		gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+		gl.vertexAttribPointer(programInfo.attribLocations.texturePosition, numComponents, type, normalize, stride, offset);
+		gl.enableVertexAttribArray(programInfo.attribLocations.texturePosition);
+
 		gl.useProgram(programInfo.program);
+
+		// Tell WebGL we want to affect texture unit 0
+		gl.activeTexture(gl.TEXTURE0);
+		// Bind the texture to texture unit 0
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+		// Tell the shader we bound the texture to texture unit 0
+		gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
 
 		// gl.uniformMatrix4fv(
 		// 	programInfo.uniformLocations.projectionMatrix,
@@ -119,10 +155,36 @@ export default class ImageLayer extends Component<Props, State>
 		return shader;
 	}
 
+	private loadTexture(gl: WebGLRenderingContext, image2: RasterImage) {
+		const texture = gl.createTexture();
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+
+		const level = 0;
+		const internalFormat = gl.RGBA;
+		const width = 1;
+		const height = 1;
+		const border = 0;
+		const srcFormat = gl.RGBA;
+		const srcType = gl.UNSIGNED_BYTE;
+		const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
+
+		gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+			width, height, border, srcFormat, srcType,
+			pixel);
+
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+		gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image2.imageData);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+		return texture;
+	}
+
 	public render(): React.ReactNode {
 		return (
 			<div>
-				<img src={this._glImage.url} style={{ maxHeight: 500, maxWidth: 500 }} />
+				<canvas ref='canvas' style={{ maxHeight: 500, maxWidth: 500 }} />
 			</div>
 		);
 	}
