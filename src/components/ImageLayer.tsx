@@ -16,10 +16,9 @@ export default class ImageLayer extends Component<Props, State>
 		mouseTop: 0
 	};
 
-	public constructor(props: Props)
-	{
+	public constructor(props: Props) {
 		super(props);
-		
+
 		this.mouseMoved = this.mouseMoved.bind(this);
 	}
 
@@ -40,6 +39,8 @@ export default class ImageLayer extends Component<Props, State>
 	}
 
 	private updateCanvas() {
+		console.log('Optimize');
+
 		const image = this.refs.canvas as HTMLCanvasElement;
 		image.width = this.props.baseImage.width;
 		image.height = this.props.baseImage.height;
@@ -70,10 +71,15 @@ export default class ImageLayer extends Component<Props, State>
 			varying lowp vec2 texturePosition;
 
 			void main() {
+				lowp vec4 sample1 = texture2D(uSampler, texturePosition);
+				lowp vec4 sample2 = texture2D(uSampler, vec2(texturePosition.x + 0.01, texturePosition.y));
+
+				lowp float diff = (sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) * 0.5 * 0.33 + 0.5;
+
 				lowp vec4 color = vec4(
-					texture2D(uSampler, texturePosition).r,
-					0,
-					0,
+					diff,
+					diff,
+					diff,
 					1
 				);
 
