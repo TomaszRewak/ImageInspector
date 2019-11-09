@@ -189,9 +189,15 @@ export default class ImageLayer extends Component<Props, State>
 	}
 
 	public render(): React.ReactNode {
+		const mask = 'radial-gradient(ellipse 80px 80px at 200px 80px, black 60px, transparent 80px)';
+
 		return (
-			<div>
-				<canvas ref='canvas' style={{ width: 500, maxWidth: 500 }} />
+			<div style={{ position: 'absolute', top: 0 }}>
+				<canvas ref='canvas' style={{
+					maxWidth: 500,
+					maskImage: mask,
+					WebkitMaskImage: mask
+				}} />
 			</div>
 		);
 	}

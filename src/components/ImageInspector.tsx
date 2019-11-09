@@ -29,12 +29,14 @@ export default class ImageInspector extends Component<Props, State>
 		return (
 			<div>
 				<ImageSelector selected={this._imageSelected} />
-				{this.state.image &&
-					<ImageViewer source={this.state.image.url} />
-				}
-				{this.state.image &&
-					<ImageLayer baseImage={this.state.image} />
-				}
+				<div style={{ position: 'relative' }}>
+					{this.state.image &&
+						<ImageViewer source={this.state.image.url} />
+					}
+					{this.state.image &&
+						<ImageLayer baseImage={this.state.image} />
+					}
+				</div>
 			</div>
 		)
 	}
