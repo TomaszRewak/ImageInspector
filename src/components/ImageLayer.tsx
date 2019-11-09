@@ -4,11 +4,11 @@ import RasterImage from '../lib/RasterImage';
 type Props = {
 	baseImage: RasterImage
 };
-type State = { };
+type State = {};
 
 export default class ImageLayer extends Component<Props, State>
 {
-	state = { };
+	state = {};
 
 	componentDidMount() {
 		this.updateCanvas();
@@ -20,13 +20,13 @@ export default class ImageLayer extends Component<Props, State>
 
 	private updateCanvas() {
 		const image = this.refs.canvas as HTMLCanvasElement;
+		image.width = this.props.baseImage.width;
+		image.height = this.props.baseImage.height;
+
 		const baseImage = this.props.baseImage;
-		const gl = image.getContext('webgl');
+		const gl = image.getContext('webgl', { antialias: false });
 
 		if (gl == null) throw Error();
-
-		image.width = 4160;//baseImage.width;
-		image.height = 3120;//baseImage.height;
 
 		const vertexShaderSource = `
 			attribute vec4 aVertexPosition;
@@ -49,7 +49,14 @@ export default class ImageLayer extends Component<Props, State>
 			varying lowp vec2 texturePosition;
 
 			void main() {
-				gl_FragColor = texture2D(uSampler, texturePosition);
+				lowp vec4 color = vec4(
+					texture2D(uSampler, texturePosition).r,
+					0,
+					0,
+					1
+				);
+
+				gl_FragColor = color;
 			}
 		`;
 
@@ -85,8 +92,8 @@ export default class ImageLayer extends Component<Props, State>
 		const textureCoordinates = [
 			0.0, 0.0,
 			1.0, 0.0,
-			1.0, 1.0,
 			0.0, 1.0,
+			1.0, 1.0,
 		];
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
 
@@ -184,7 +191,7 @@ export default class ImageLayer extends Component<Props, State>
 	public render(): React.ReactNode {
 		return (
 			<div>
-				<canvas ref='canvas' style={{ maxHeight: 500, maxWidth: 500 }} />
+				<canvas ref='canvas' style={{ width: 500, maxWidth: 500 }} />
 			</div>
 		);
 	}
