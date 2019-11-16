@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { MouseCoordinates } from '../store/mouse/Types';
 
-type P = {
-	mouseCoordinates: MouseCoordinates
-};
+type P = {};
 type S = {};
 
 export default class Parameter extends Component<P, S>

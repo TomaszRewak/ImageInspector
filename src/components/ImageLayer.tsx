@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, MouseEvent } from 'react';
 import RasterImage from '../lib/RasterImage';
 
 type Props = {
@@ -18,6 +18,8 @@ export default class ImageLayer extends Component<Props, State>
 
 	public constructor(props: Props) {
 		super(props);
+
+		this.mouseMoved = this.mouseMoved.bind(this);
 	}
 
 	componentDidMount() {
@@ -26,6 +28,14 @@ export default class ImageLayer extends Component<Props, State>
 
 	componentDidUpdate() {
 		this.updateCanvas();
+	}
+
+	private mouseMoved(event: MouseEvent) {
+		console.log(Date.now())
+		this.setState({
+			mouseLeft: event.clientX,
+			mouseTop: event.clientY
+		})
 	}
 
 	private updateCanvas() {
@@ -209,7 +219,7 @@ export default class ImageLayer extends Component<Props, State>
 		const mask = `radial-gradient(ellipse 80px 80px at ${this.state.mouseLeft}px ${this.state.mouseTop}px, black 60px, transparent 80px)`;
 
 		return (
-			<div style={{ position: 'absolute', top: 0 }}>
+			<div style={{ position: 'absolute', top: 0 }} onMouseMove={this.mouseMoved}>
 				<canvas ref='canvas' style={{
 					maxWidth: 500,
 					maskImage: mask,

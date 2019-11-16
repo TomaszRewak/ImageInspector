@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
-import { AppState } from '../store';
-import { MouseCoordinates } from '../store/mouse/Types';
+import React, { Component } from 'react';
 import Parameter from './Parameter';
 import { connect } from 'react-redux';
 
-type P = {
-	mouseCoordinates: MouseCoordinates
-};
+type P = {};
 type S = {
 	parameters: number[]
 };
 
-class Parameters extends Component<P, S>
+export default class Parameters extends Component<P, S>
 {
 	state = {
 		parameters: [1, 2, 3]
@@ -21,21 +17,13 @@ class Parameters extends Component<P, S>
 		return (
 			<div>
 				<div>
-					<div>{this.props.mouseCoordinates.x}</div>
-					<div>{this.props.mouseCoordinates.y}</div>
+					<div>{0}</div>
+					<div>{0}</div>
 				</div>
 				{
-					this.state.parameters.map((p, i) => <Parameter key={i} mouseCoordinates={this.props.mouseCoordinates} />)
+					this.state.parameters.map((p, i) => <Parameter key={i} />)
 				}
 			</div>
 		);
 	}
 }
-
-export default connect(
-	(state: AppState) => {
-		return {
-			mouseCoordinates: state.mouse.mouseCoordinates
-		}
-	}
-)(Parameters);

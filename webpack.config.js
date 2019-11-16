@@ -24,9 +24,7 @@ module.exports = {
     },
     externals: {
         "react": "React",
-        "react-dom": "ReactDOM",
-        "react-redux": "ReactRedux",
-        "redux": "Redux"
+        "react-dom": "ReactDOM"
 	},
 	watch: true
 };
