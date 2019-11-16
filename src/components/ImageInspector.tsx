@@ -3,6 +3,7 @@ import { ImageSelector } from './ImageSelector';
 import RasterImage from '../lib/RasterImage';
 import ImageViewer from './ImageViewer';
 import ImageLayer from './ImageLayer';
+import Parameters from './Parameters';
 
 type Props = {}
 type State = { image?: RasterImage }
@@ -29,14 +30,10 @@ export default class ImageInspector extends Component<Props, State>
 		return (
 			<div>
 				<ImageSelector selected={this._imageSelected} />
-				<div style={{ position: 'relative' }}>
-					{this.state.image &&
-						<ImageViewer source={this.state.image.url} />
-					}
-					{this.state.image &&
-						<ImageLayer baseImage={this.state.image} />
-					}
-				</div>
+				{this.state.image &&
+					<ImageViewer image={this.state.image} />
+				}
+				<Parameters />
 			</div>
 		)
 	}
