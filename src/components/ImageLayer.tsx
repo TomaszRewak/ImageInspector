@@ -44,14 +44,9 @@ export default class ImageLayer extends Component<Props, State>
 	private updateCanvas() {
 		console.log('Optimize');
 
-		const image = this.refs.canvas as HTMLCanvasElement;
-		image.width = this.props.baseImage.width;
-		image.height = this.props.baseImage.height;
-
-		const context = image.getContext('webgl') || throwError<WebGLRenderingContext>('Browser not supported');
-
-		const layer = new Layer(context, Shader.default);
-		layer.transform(this.props.baseImage.imageData);
+		const layer = new Layer(Shader.default);
+		layer.load(this.props.baseImage.imageData);
+		layer.draw(this.refs.canvas as HTMLCanvasElement)
 		layer.dispose();
 	}
 

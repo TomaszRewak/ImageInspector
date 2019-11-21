@@ -5,16 +5,18 @@ import loadTexture from "./utils/TextureLoader";
 import bindBuffer from "./utils/BufferBinder";
 
 export default class Layer {
+	private readonly _canvas: HTMLCanvasElement;
 	private readonly _context: WebGLRenderingContext;
 	private readonly _program: WebGLProgram;
 	private readonly _vertexBuffer: WebGLBuffer;
 	private readonly _textureCoordinatesBuffer: WebGLBuffer;
 
-	public constructor(context: WebGLRenderingContext, shader: Shader) {
-		this._context = context;
-		this._program = context.createProgram() || throwError('Cannot create program');
-		this._vertexBuffer = context.createBuffer() || throwError('Cannot create buffer');
-		this._textureCoordinatesBuffer = context.createBuffer() || throwError('Cannot create buffer');
+	public constructor(shader: Shader) {
+		this._canvas = document.createElement('canvas');
+		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
+		this._program = this._context.createProgram() || throwError('Cannot create program');
+		this._vertexBuffer = this._context.createBuffer() || throwError('Cannot create buffer');
+		this._textureCoordinatesBuffer = this._context.createBuffer() || throwError('Cannot create buffer');
 
 		linkProgram(this._context, this._program, shader);
 
@@ -43,8 +45,11 @@ export default class Layer {
 			this._context.STATIC_DRAW);
 	}
 
-	public transform(image: ImageData) {
+	public load(image: ImageData) {
 		this.clear();
+		
+		this._canvas.width = image.width;
+		this._canvas.height = image.height;
 
 		this._context.useProgram(this._program);
 
@@ -55,6 +60,15 @@ export default class Layer {
 
 		this._context.drawArrays(this._context.TRIANGLE_STRIP, 0, 4);
 		this._context.deleteTexture(texture);
+	}
+
+	public draw(destination: HTMLCanvasElement)
+	{
+		destination.width = this._canvas.width;
+		destination.height = this._canvas.height;
+
+		var context = destination.getContext('2d') || throwError<CanvasRenderingContext2D>('Cannot create 2d context');
+		context.drawImage(this._canvas, 0, 0);
 	}
 
 	private clear() {
