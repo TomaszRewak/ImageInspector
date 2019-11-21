@@ -50,10 +50,11 @@ export default class Layer {
 
 		bindBuffer(this._context, this._program, this._vertexBuffer, 'aVertexPosition');
 		bindBuffer(this._context, this._program, this._textureCoordinatesBuffer, 'aTexturePosition');
-		loadTexture(this._context, this._program, image, 'uSampler');
+		
+		const texture = loadTexture(this._context, this._program, image, 'uSampler');
 
 		this._context.drawArrays(this._context.TRIANGLE_STRIP, 0, 4);
-		this._context.deleteTexture(this._context);
+		this._context.deleteTexture(texture);
 	}
 
 	private clear() {
