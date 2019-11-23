@@ -12,14 +12,12 @@ export default class Layer {
 	private readonly _vertexBuffer: WebGLBuffer;
 	private readonly _textureCoordinatesBuffer: WebGLBuffer;
 
-	public constructor(shader: Shader) {
+	public constructor() {
 		this._canvas = document.createElement('canvas');
 		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
 		this._program = this._context.createProgram() || throwError('Cannot create program');
 		this._vertexBuffer = this._context.createBuffer() || throwError('Cannot create buffer');
 		this._textureCoordinatesBuffer = this._context.createBuffer() || throwError('Cannot create buffer');
-
-		linkProgram(this._context, this._program, shader);
 
 		this.initializeBuffers();
 	}
@@ -46,6 +44,10 @@ export default class Layer {
 			this._context.STATIC_DRAW);
 	}
 
+	public link(shader: Shader) {
+		linkProgram(this._context, this._program, shader);
+	}
+
 	public load(image: RasterImage) {
 		this._canvas.width = image.width;
 		this._canvas.height = image.height;
@@ -57,20 +59,25 @@ export default class Layer {
 
 		bindBuffer(this._context, this._program, this._vertexBuffer, 'aVertexPosition');
 		bindBuffer(this._context, this._program, this._textureCoordinatesBuffer, 'aTexturePosition');
-		
+
 		const texture = loadTexture(this._context, this._program, image.imageData, 'uSampler');
 
 		this._context.drawArrays(this._context.TRIANGLE_STRIP, 0, 4);
 		this._context.deleteTexture(texture);
 	}
 
-	public draw(destination: HTMLCanvasElement)
-	{
+	public draw(destination: HTMLCanvasElement) {
 		destination.width = this._canvas.width;
 		destination.height = this._canvas.height;
 
-		var context = destination.getContext('2d') || throwError<CanvasRenderingContext2D>('Cannot create 2d context');
-		context.drawImage(this._canvas, 0, 0);
+		var target = destination.getContext('2d') || throwError<CanvasRenderingContext2D>('Cannot create 2d context');
+		target.drawImage(this._canvas, 0, 0);
+	}
+
+	public getValue(x: number, y: number): number {
+		var pixels = new Uint8Array(4);
+		this._context.readPixels(x, y, 1, 1, this._context.RGBA, this._context.UNSIGNED_BYTE, pixels);
+		return pixels[0];
 	}
 
 	private clear() {

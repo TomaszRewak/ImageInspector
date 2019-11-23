@@ -1,18 +1,15 @@
 import React, { Component, MouseEvent } from 'react';
-import RasterImage from '../lib/RasterImage';
 import Layer from '../image-processing/Layer';
-import { throwError } from '../utils/exceptions';
-import Shader from '../image-processing/Shader';
 
 type Props = {
-	baseImage: RasterImage
+	layer: Layer
 };
 type State = {
 	mouseLeft: number,
 	mouseTop: number,
 };
 
-export default class ImageLayer extends Component<Props, State>
+export default class LayerPreview extends Component<Props, State>
 {
 	state = {
 		mouseLeft: 0,
@@ -30,7 +27,7 @@ export default class ImageLayer extends Component<Props, State>
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		if (prevProps.baseImage != this.props.baseImage)
+		if (prevProps.layer != this.props.layer)
 			this.updateCanvas();
 	}
 
@@ -43,12 +40,7 @@ export default class ImageLayer extends Component<Props, State>
 	}
 
 	private updateCanvas() {
-		console.log('Optimize');
-
-		const layer = new Layer(Shader.default);
-		layer.load(this.props.baseImage);
-		layer.draw(this.refs.canvas as HTMLCanvasElement)
-		layer.dispose();
+		this.props.layer.draw(this.refs.canvas as HTMLCanvasElement);
 	}
 
 	public render(): React.ReactNode {

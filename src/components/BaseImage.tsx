@@ -4,7 +4,7 @@ import RasterImage from '../lib/RasterImage';
 type Props = { source: string }
 type State = {}
 
-export default class ImagePreview extends Component<Props, State>
+export default class BaseImage extends Component<Props, State>
 {
 	public constructor(props: Props) {
 		super(props);
