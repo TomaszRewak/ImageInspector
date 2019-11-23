@@ -29,8 +29,9 @@ export default class ImageLayer extends Component<Props, State>
 		this.updateCanvas();
 	}
 
-	componentDidUpdate() {
-		this.updateCanvas();
+	componentDidUpdate(prevProps: Props) {
+		if (prevProps.baseImage != this.props.baseImage)
+			this.updateCanvas();
 	}
 
 	private mouseMoved(event: MouseEvent) {
