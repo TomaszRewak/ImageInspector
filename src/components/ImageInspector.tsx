@@ -9,7 +9,9 @@ import Layers from './Layers';
 type Props = {}
 type State = {
 	baseImage?: RasterImage,
-	layers: Layer[]
+	layers: Layer[],
+	x: number,
+	y: number
 }
 
 export default class ImageInspector extends Component<Props, State>
@@ -19,13 +21,16 @@ export default class ImageInspector extends Component<Props, State>
 
 		this.state = {
 			baseImage: undefined,
-			layers: []
+			layers: [],
+			x: 0,
+			y: 0
 		}
 
-		this._imageSelected = this._imageSelected.bind(this);
+		this.imageSelected = this.imageSelected.bind(this);
+		this.mouseMoved = this.mouseMoved.bind(this);
 	}
 
-	private _imageSelected(baseImage: RasterImage) {
+	private imageSelected(baseImage: RasterImage) {
 		const layer = new Layer();
 		layer.link(Shader.default);
 		layer.load(baseImage);
@@ -38,14 +43,18 @@ export default class ImageInspector extends Component<Props, State>
 		});
 	}
 
+	private mouseMoved(x: number, y: number) {
+		this.setState({ x, y });
+	}
+
 	public render(): React.ReactNode {
 		return (
 			<div>
-				<ImageSelector selected={this._imageSelected} />
+				<ImageSelector selected={this.imageSelected} />
 				{this.state.baseImage &&
-					<Preview image={this.state.baseImage} layers={this.state.layers} />
+					<Preview image={this.state.baseImage} layers={this.state.layers} onMouseMove={this.mouseMoved} />
 				}
-				<Layers layers={this.state.layers} x={10} y={10}/>
+				<Layers layers={this.state.layers} x={this.state.x} y={this.state.y} />
 			</div>
 		)
 	}
