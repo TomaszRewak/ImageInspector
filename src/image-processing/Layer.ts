@@ -3,6 +3,7 @@ import { throwError } from "../utils/exceptions";
 import linkProgram from "./utils/ProgramLinker";
 import loadTexture from "./utils/TextureLoader";
 import bindBuffer from "./utils/BufferBinder";
+import RasterImage from "../lib/RasterImage";
 
 export default class Layer {
 	private readonly _canvas: HTMLCanvasElement;
@@ -45,18 +46,19 @@ export default class Layer {
 			this._context.STATIC_DRAW);
 	}
 
-	public load(image: ImageData) {
-		this.clear();
-		
+	public load(image: RasterImage) {
 		this._canvas.width = image.width;
 		this._canvas.height = image.height;
+		this._context.viewport(0, 0, image.width, image.height);
+
+		this.clear();
 
 		this._context.useProgram(this._program);
 
 		bindBuffer(this._context, this._program, this._vertexBuffer, 'aVertexPosition');
 		bindBuffer(this._context, this._program, this._textureCoordinatesBuffer, 'aTexturePosition');
 		
-		const texture = loadTexture(this._context, this._program, image, 'uSampler');
+		const texture = loadTexture(this._context, this._program, image.imageData, 'uSampler');
 
 		this._context.drawArrays(this._context.TRIANGLE_STRIP, 0, 4);
 		this._context.deleteTexture(texture);

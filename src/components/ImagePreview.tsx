@@ -15,7 +15,7 @@ export default class ImagePreview extends Component<Props, State>
 	public render(): React.ReactNode {
 		return (
 			<div>
-				<img src={this.props.source} style={{ maxHeight: 500, maxWidth: 500 }} />
+				<img src={this.props.source} />
 			</div>
 		);
 	}

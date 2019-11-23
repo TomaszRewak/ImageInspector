@@ -45,7 +45,7 @@ export default class ImageLayer extends Component<Props, State>
 		console.log('Optimize');
 
 		const layer = new Layer(Shader.default);
-		layer.load(this.props.baseImage.imageData);
+		layer.load(this.props.baseImage);
 		layer.draw(this.refs.canvas as HTMLCanvasElement)
 		layer.dispose();
 	}
@@ -56,7 +56,6 @@ export default class ImageLayer extends Component<Props, State>
 		return (
 			<div style={{ position: 'absolute', top: 0 }} onMouseMove={this.mouseMoved}>
 				<canvas ref='canvas' style={{
-					maxWidth: 500,
 					maskImage: mask,
 					WebkitMaskImage: mask
 				}} />
