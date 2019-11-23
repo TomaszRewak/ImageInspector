@@ -31,9 +31,7 @@ export default class ImageInspector extends Component<Props, State>
 	}
 
 	private imageSelected(baseImage: RasterImage) {
-		const layer = new Layer();
-		layer.link(Shader.default);
-		layer.load(baseImage);
+		const layer = new Layer(baseImage, Shader.default);
 
 		this.setState({
 			baseImage,

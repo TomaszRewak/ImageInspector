@@ -11,8 +11,9 @@ export default class Layer {
 	private readonly _program: WebGLProgram;
 	private readonly _vertexBuffer: WebGLBuffer;
 	private readonly _textureCoordinatesBuffer: WebGLBuffer;
+	private readonly _data: Uint8Array;
 
-	public constructor() {
+	public constructor(image: RasterImage, shader: Shader) {
 		this._canvas = document.createElement('canvas');
 		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
 		this._program = this._context.createProgram() || throwError('Cannot create program');
@@ -20,6 +21,12 @@ export default class Layer {
 		this._textureCoordinatesBuffer = this._context.createBuffer() || throwError('Cannot create buffer');
 
 		this.initializeBuffers();
+		this.link(shader);
+		this.load(image);
+		this.dispose();
+
+		this._data = new Uint8Array(4 * this._canvas.width * this._canvas.height);
+		this._context.readPixels(0, 0, this._canvas.width, this._canvas.height, this._context.RGBA, this._context.UNSIGNED_BYTE, this._data);
 	}
 
 	private initializeBuffers() {
@@ -44,11 +51,23 @@ export default class Layer {
 			this._context.STATIC_DRAW);
 	}
 
-	public link(shader: Shader) {
+	public draw(destination: HTMLCanvasElement) {
+		destination.width = this._canvas.width;
+		destination.height = this._canvas.height;
+
+		var target = destination.getContext('2d') || throwError<CanvasRenderingContext2D>('Cannot create 2d context');
+		target.drawImage(this._canvas, 0, 0);
+	}
+
+	public getValue(x: number, y: number): number {
+		return this._data[(x + y * this._canvas.width) * 4];
+	}
+
+	private link(shader: Shader) {
 		linkProgram(this._context, this._program, shader);
 	}
 
-	public load(image: RasterImage) {
+	private load(image: RasterImage) {
 		this._canvas.width = image.width;
 		this._canvas.height = image.height;
 		this._context.viewport(0, 0, image.width, image.height);
@@ -66,26 +85,13 @@ export default class Layer {
 		this._context.deleteTexture(texture);
 	}
 
-	public draw(destination: HTMLCanvasElement) {
-		destination.width = this._canvas.width;
-		destination.height = this._canvas.height;
-
-		var target = destination.getContext('2d') || throwError<CanvasRenderingContext2D>('Cannot create 2d context');
-		target.drawImage(this._canvas, 0, 0);
-	}
-
-	public getValue(x: number, y: number): number {
-		var pixels = new Uint8Array(4);
-		this._context.readPixels(x, y, 1, 1, this._context.RGBA, this._context.UNSIGNED_BYTE, pixels);
-		return pixels[0];
-	}
-
 	private clear() {
 		this._context.clearColor(0.0, 0.0, 0.0, 1.0);
+
 		this._context.clear(this._context.COLOR_BUFFER_BIT);
 	}
 
-	public dispose(): void {
+	private dispose(): void {
 		if (this._vertexBuffer)
 			this._context.deleteBuffer(this._vertexBuffer);
 		if (this._textureCoordinatesBuffer)
