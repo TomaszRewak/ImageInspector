@@ -17,7 +17,11 @@ export default class LayerData extends Component<Props, State>
 
 		return (
 			<div>
-				{value}
+				<div>{value.r}</div>
+				<div>{value.g}</div>
+				<div>{value.b}</div>
+				<div>{this.props.x}</div>
+				<div>{this.props.y}</div>
 			</div>
 		);
 	}

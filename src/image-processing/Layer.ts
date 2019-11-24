@@ -32,7 +32,11 @@ export default class Layer {
 		target.drawImage(this._canvas, 0, 0);
 	}
 
-	public getValue(x: number, y: number): number {
-		return this._data[(x + y * this._canvas.width) * 4];
+	public getValue(x: number, y: number) {
+		return {
+			r: this._data[(x + y * this._canvas.width) * 4],
+			g: this._data[(x + y * this._canvas.width) * 4 + 1],
+			b: this._data[(x + y * this._canvas.width) * 4 + 2]
+		}
 	}
 }
