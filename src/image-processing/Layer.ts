@@ -33,10 +33,12 @@ export default class Layer {
 	}
 
 	public getValue(x: number, y: number) {
+		var index = (x + (this._canvas.height - y) * this._canvas.width) * 4;
+
 		return {
-			r: this._data[(x + y * this._canvas.width) * 4],
-			g: this._data[(x + y * this._canvas.width) * 4 + 1],
-			b: this._data[(x + y * this._canvas.width) * 4 + 2]
+			r: this._data[index],
+			g: this._data[index + 1],
+			b: this._data[index + 2]
 		}
 	}
 }
