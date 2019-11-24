@@ -28,14 +28,17 @@ export default class Preview extends Component<Props, State>
 	}
 
 	private mouseMoved(event: MouseEvent) {
-		console.log(Date.now())
-		this.setState({
-			x: event.clientX,
-			y: event.clientY
-		})
+		var rect = (event.target as any).getBoundingClientRect();
+		var x = event.clientX - rect.left;
+		var y = event.clientY - rect.top;
+
+		this.setState({ x, y })
 
 		if (this.props.onMouseMove)
-			this.props.onMouseMove(event.clientX, event.clientY);
+			this.props.onMouseMove(x, y);
+
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	public render(): React.ReactNode {

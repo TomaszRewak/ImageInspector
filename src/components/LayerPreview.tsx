@@ -31,7 +31,7 @@ export default class LayerPreview extends Component<Props, State>
 		const mask = `circle(50px at ${this.props.x}px ${this.props.y}px)`;
 
 		return (
-			<div style={{ position: 'absolute', top: 0 }}>
+			<div style={{ position: 'absolute', top: 0, pointerEvents: 'none' }}>
 				<canvas ref='canvas' style={{
 					clipPath: mask,
 					WebkitClipPath: mask

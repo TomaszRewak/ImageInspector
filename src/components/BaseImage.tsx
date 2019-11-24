@@ -14,7 +14,7 @@ export default class BaseImage extends Component<Props, State>
 
 	public render(): React.ReactNode {
 		return (
-			<div>
+			<div style={{ pointerEvents: 'none' }}>
 				<img src={this.props.source} />
 			</div>
 		);
