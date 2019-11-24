@@ -3,6 +3,7 @@ import RasterImage from '../lib/RasterImage';
 import BaseImage from './BaseImage';
 import LayerPreview from './LayerPreview';
 import Layer from '../image-processing/Layer';
+import Crosshair from './Crosshair';
 
 type Props = {
 	image: RasterImage,
@@ -42,12 +43,17 @@ export default class Preview extends Component<Props, State>
 	}
 
 	public render(): React.ReactNode {
+		const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
+
 		return (
 			<div style={{ position: 'relative', cursor: 'none' }} onMouseMove={this.mouseMoved}>
 				<BaseImage source={this.props.image.url} />
-				{
-					this.props.layers.map((layer, key) => <LayerPreview key={key} layer={layer} x={this.state.x} y={this.state.y} />)
-				}
+				<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
+					{
+						this.props.layers.map((layer, key) => <LayerPreview key={key} layer={layer} />)
+					}
+				</div>
+				<Crosshair x={this.state.x} y={this.state.y} />
 			</div>
 		);
 	}
