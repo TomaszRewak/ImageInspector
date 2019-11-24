@@ -43,7 +43,7 @@ export default class Preview extends Component<Props, State>
 
 	public render(): React.ReactNode {
 		return (
-			<div style={{ position: 'relative' }} onMouseMove={this.mouseMoved}>
+			<div style={{ position: 'relative', cursor: 'none' }} onMouseMove={this.mouseMoved}>
 				<BaseImage source={this.props.image.url} />
 				{
 					this.props.layers.map((layer, key) => <LayerPreview key={key} layer={layer} x={this.state.x} y={this.state.y} />)
