@@ -6,7 +6,8 @@ import Crosshair from './Crosshair';
 import '../styles/Preview.css'
 
 type Props = {
-	layers: Layer[],
+	main: Layer,
+	overlay: Layer,
 	onMouseMove?: (x: number, y: number) => void
 }
 type State = {
@@ -42,20 +43,21 @@ export default class Preview extends Component<Props, State>
 	}
 
 	public render(): React.ReactNode {
-		if (this.props.layers.length == 0) return <div className='preview' />
+		const { main, overlay } = this.props;
+
+		if (!this.props.main) return <div className='preview' />
 
 		const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
-		const mainLayer = this.props.layers[0];
 
 		return (
 			<div className='preview' >
-				<div style={{ position: 'relative', cursor: 'none', width: mainLayer.width, height: mainLayer.height }} onMouseMove={this.mouseMoved}>
-					<LayerPreview layer={mainLayer} />)
-					<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
-						{
-							this.props.layers.slice(1).map((layer, key) => <LayerPreview key={key} layer={layer} />)
-						}
-					</div>
+				<div style={{ position: 'relative', cursor: 'none', width: main.width, height: main.height }} onMouseMove={this.mouseMoved}>
+					<LayerPreview layer={main} />
+					{overlay &&
+						<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
+							<LayerPreview layer={overlay} />
+						</div>
+					}
 					<Crosshair x={this.state.x} y={this.state.y} />
 				</div>
 			</div>

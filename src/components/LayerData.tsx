@@ -4,16 +4,30 @@ import Layer from '../image-processing/Layer';
 type Props = {
 	layer: Layer,
 	x: number,
-	y: number
+	y: number,
+	selected: (layer: Layer) => void
 }
 type State = {}
 
 
 export default class LayerData extends Component<Props, State>
 {
+	public constructor(props: Props)
+	{
+		super(props);
+
+		this.state = {};
+
+		this.selected = this.selected.bind(this);
+	}
+
+	private selected() {
+		this.props.selected(this.props.layer);
+	}
+
 	public render() {
 		return (
-			<div className='layer-data'>
+			<div className='layer-data' onClick={this.selected}>
 				<div className='layer-name'>{this.props.layer.shader.name}</div>
 				{this.getValues()}
 			</div>
