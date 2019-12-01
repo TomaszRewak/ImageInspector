@@ -2,6 +2,15 @@
 	grid-area: layers;
 }
 
-.layer-data {
-	
+.layer-data {}
+
+.layer-data>.layer-values {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.layer-data>.layer-values>.layer-value {
+	width: 50px;
+	text-align: right;
 }

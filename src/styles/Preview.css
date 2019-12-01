@@ -1,3 +1,8 @@
 .preview {
 	grid-area: preview;
+	overflow: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-image: repeating-linear-gradient(-45deg, #505050 0 20px, #4e4e4e 20px 40px);
 }

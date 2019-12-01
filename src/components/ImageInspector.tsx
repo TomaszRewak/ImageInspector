@@ -45,7 +45,7 @@ export default class ImageInspector extends Component<Props, State>
 
 	public render(): React.ReactNode {
 		return (
-			<div className='image-inspector'>
+			<div className='image-inspector fill'>
 				<Menu imageSelected={this.imageSelected} />
 				<Preview layers={this.state.layers} onMouseMove={this.mouseMoved} />
 				<Layers layers={this.state.layers} x={this.state.x} y={this.state.y} />

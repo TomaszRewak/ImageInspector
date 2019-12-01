@@ -42,7 +42,7 @@ export default class Preview extends Component<Props, State>
 	}
 
 	public render(): React.ReactNode {
-		if (this.props.layers.length == 0) return <div className='Preview' />
+		if (this.props.layers.length == 0) return <div className='preview' />
 
 		const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
 		const mainLayer = this.props.layers[0];
