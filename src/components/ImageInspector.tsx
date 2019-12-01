@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { ImageSelector } from './ImageSelector';
 import RasterImage from '../lib/RasterImage';
 import Preview from './Preview';
 import Layer from '../image-processing/Layer';
 import Shader from '../image-processing/Shader';
 import Layers from './Layers';
+import '../styles/ImageInspector.css'
+import Menu from './Menu';
 
 type Props = {}
 type State = {
@@ -44,11 +45,9 @@ export default class ImageInspector extends Component<Props, State>
 
 	public render(): React.ReactNode {
 		return (
-			<div>
-				<ImageSelector selected={this.imageSelected} />
-				{this.state.layers.length &&
-					<Preview layers={this.state.layers} onMouseMove={this.mouseMoved} />
-				}
+			<div className='image-inspector'>
+				<Menu imageSelected={this.imageSelected} />
+				<Preview layers={this.state.layers} onMouseMove={this.mouseMoved} />
 				<Layers layers={this.state.layers} x={this.state.x} y={this.state.y} />
 			</div>
 		)

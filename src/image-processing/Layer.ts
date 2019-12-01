@@ -1,17 +1,16 @@
 import Shader from "./Shader";
 import { throwError } from "../utils/exceptions";
-import linkProgram from "./utils/ProgramLinker";
-import loadTexture from "./utils/TextureLoader";
-import bindBuffer from "./utils/BufferBinder";
 import RasterImage from "../lib/RasterImage";
 import renderImage from "./utils/ImageRenderer";
 
 export default class Layer {
+	private readonly _shader: Shader;
 	private readonly _canvas: HTMLCanvasElement;
 	private readonly _context: WebGLRenderingContext;
 	private readonly _data: Uint8Array;
 
 	public constructor(image: RasterImage, shader: Shader) {
+		this._shader = shader;
 		this._canvas = document.createElement('canvas');
 		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
 		this._data = new Uint8Array(4 * image.width * image.height);
@@ -30,6 +29,10 @@ export default class Layer {
 
 	public get height(): number {
 		return this._canvas.height;
+	}
+
+	public get shader(): Shader {
+		return this._shader;
 	}
 
 	public draw(destination: HTMLCanvasElement) {

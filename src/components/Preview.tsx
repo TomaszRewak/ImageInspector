@@ -3,6 +3,7 @@ import RasterImage from '../lib/RasterImage';
 import LayerPreview from './LayerPreview';
 import Layer from '../image-processing/Layer';
 import Crosshair from './Crosshair';
+import '../styles/Preview.css'
 
 type Props = {
 	layers: Layer[],
@@ -41,18 +42,22 @@ export default class Preview extends Component<Props, State>
 	}
 
 	public render(): React.ReactNode {
+		if (this.props.layers.length == 0) return <div className='Preview' />
+
 		const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
 		const mainLayer = this.props.layers[0];
 
 		return (
-			<div style={{ position: 'relative', cursor: 'none', width: mainLayer.width, height: mainLayer.height }} onMouseMove={this.mouseMoved}>
-				<LayerPreview layer={mainLayer} />)
-				<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
-					{
-						this.props.layers.slice(1).map((layer, key) => <LayerPreview key={key} layer={layer} />)
-					}
+			<div className='preview' >
+				<div style={{ position: 'relative', cursor: 'none', width: mainLayer.width, height: mainLayer.height }} onMouseMove={this.mouseMoved}>
+					<LayerPreview layer={mainLayer} />)
+					<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
+						{
+							this.props.layers.slice(1).map((layer, key) => <LayerPreview key={key} layer={layer} />)
+						}
+					</div>
+					<Crosshair x={this.state.x} y={this.state.y} />
 				</div>
-				<Crosshair x={this.state.x} y={this.state.y} />
 			</div>
 		);
 	}

@@ -1,0 +1,8 @@
+.image-inspector {
+	display: grid;
+	grid-template-columns: 1fr 200px;
+	grid-template-rows: 20px 1fr;
+	grid-template-areas:
+		"menu menu"
+		"preview layers";
+}

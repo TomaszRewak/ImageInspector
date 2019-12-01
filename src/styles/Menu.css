@@ -1,0 +1,5 @@
+.menu {
+	grid-area: menu;
+	display: flex;
+	flex-direction: row;
+}

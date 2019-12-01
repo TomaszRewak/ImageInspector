@@ -16,12 +16,11 @@ export default class LayerData extends Component<Props, State>
 		const value = this.props.layer.getValue(this.props.x, this.props.y)
 
 		return (
-			<div>
+			<div className='layer-data'>
+			<div>{this.props.layer.shader.name}</div>
 				<div>{value.r}</div>
 				<div>{value.g}</div>
 				<div>{value.b}</div>
-				<div>{this.props.x}</div>
-				<div>{this.props.y}</div>
 			</div>
 		);
 	}

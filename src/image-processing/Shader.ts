@@ -1,14 +1,17 @@
 export default class Shader {
+	public readonly name: string;
 	public readonly vertexShaderSource: string;
 	public readonly fragmentShaderSource: string;
 
-	constructor(vertexShader: string, fragmentShader: string) {
+	constructor(name: string, vertexShader: string, fragmentShader: string) {
+		this.name = name;
 		this.vertexShaderSource = vertexShader;
 		this.fragmentShaderSource = fragmentShader;
 	}
 
 	public static get identity() {
 		return new Shader(
+			'Base image',
 			`
 				attribute vec4 aVertexPosition;
 				attribute vec2 aTexturePosition;
@@ -37,6 +40,7 @@ export default class Shader {
 
 	public static get verticalLines() {
 		return new Shader(
+			'Vertical line detector',
 			`
 				attribute vec4 aVertexPosition;
 				attribute vec2 aTexturePosition;
