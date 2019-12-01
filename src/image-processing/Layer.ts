@@ -24,6 +24,14 @@ export default class Layer {
 		this._context.readPixels(0, 0, image.width, image.height, this._context.RGBA, this._context.UNSIGNED_BYTE, this._data);
 	}
 
+	public get width(): number {
+		return this._canvas.width;
+	}
+
+	public get height(): number {
+		return this._canvas.height;
+	}
+
 	public draw(destination: HTMLCanvasElement) {
 		destination.width = this._canvas.width;
 		destination.height = this._canvas.height;

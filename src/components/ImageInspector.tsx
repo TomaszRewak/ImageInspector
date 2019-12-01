@@ -8,7 +8,6 @@ import Layers from './Layers';
 
 type Props = {}
 type State = {
-	baseImage?: RasterImage,
 	layers: Layer[],
 	x: number,
 	y: number
@@ -20,7 +19,6 @@ export default class ImageInspector extends Component<Props, State>
 		super(props);
 
 		this.state = {
-			baseImage: undefined,
 			layers: [],
 			x: 0,
 			y: 0
@@ -31,12 +29,11 @@ export default class ImageInspector extends Component<Props, State>
 	}
 
 	private imageSelected(baseImage: RasterImage) {
-		const layer = new Layer(baseImage, Shader.default);
 
 		this.setState({
-			baseImage,
 			layers: [
-				layer
+				new Layer(baseImage, Shader.identity),
+				new Layer(baseImage, Shader.verticalLines)
 			]
 		});
 	}
@@ -49,8 +46,8 @@ export default class ImageInspector extends Component<Props, State>
 		return (
 			<div>
 				<ImageSelector selected={this.imageSelected} />
-				{this.state.baseImage &&
-					<Preview image={this.state.baseImage} layers={this.state.layers} onMouseMove={this.mouseMoved} />
+				{this.state.layers.length &&
+					<Preview layers={this.state.layers} onMouseMove={this.mouseMoved} />
 				}
 				<Layers layers={this.state.layers} x={this.state.x} y={this.state.y} />
 			</div>

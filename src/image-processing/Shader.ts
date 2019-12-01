@@ -7,7 +7,35 @@ export default class Shader {
 		this.fragmentShaderSource = fragmentShader;
 	}
 
-	public static get default() {
+	public static get identity() {
+		return new Shader(
+			`
+				attribute vec4 aVertexPosition;
+				attribute vec2 aTexturePosition;
+
+				varying lowp vec4 canvasPosition;
+				varying lowp vec2 texturePosition;
+
+				void main() {
+					gl_Position = aVertexPosition;
+					canvasPosition = aVertexPosition;
+					texturePosition = aTexturePosition;
+				}
+			`,
+			`
+				uniform sampler2D uSampler;
+
+				varying lowp vec4 canvasPosition;
+				varying lowp vec2 texturePosition;
+
+				void main() {
+					gl_FragColor = texture2D(uSampler, texturePosition);
+				}
+			`
+		);
+	}
+
+	public static get verticalLines() {
 		return new Shader(
 			`
 				attribute vec4 aVertexPosition;
