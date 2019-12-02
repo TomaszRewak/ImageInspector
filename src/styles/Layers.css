@@ -2,7 +2,9 @@
 	grid-area: layers;
 }
 
-.layer-data {}
+.layer-data {
+	margin: 10px;
+}
 
 .layer-data>.layer-values {
 	display: flex;
@@ -12,5 +14,23 @@
 
 .layer-data>.layer-values>.layer-value {
 	width: 50px;
-	text-align: right;
+	text-align: center;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 20px;
+}
+
+.layer-data>.layer-values>.layer-value.red {
+	color: rgb(177, 104, 104);
+}
+
+.layer-data>.layer-values>.layer-value.green {
+	color: rgb(104, 156, 104);
+}
+
+.layer-data>.layer-values>.layer-value.blue {
+	color: rgb(113, 152, 189);
+}
+
+.layer-data>.layer-values>.layer-value.gray {
+	color: rgb(100, 100, 100);
 }

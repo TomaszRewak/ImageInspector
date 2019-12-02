@@ -23,7 +23,7 @@ export default class ImageInspector extends Component<Props, State>
 
 		this.state = {
 			layers: [],
-			selectedLayer: 0,
+			selectedLayer: 1,
 			x: 0,
 			y: 0
 		}

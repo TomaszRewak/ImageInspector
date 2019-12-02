@@ -5,6 +5,7 @@ body {
 	max-height: 100vh;
 	max-width: 100vw;
 	overflow: hidden;
+	font-family: 'Raleway', sans-serif;
 }
 
 .fill {

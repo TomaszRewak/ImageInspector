@@ -46,7 +46,7 @@ export default class LayerData extends Component<Props, State>
 	private getSingleValue(value: number) {
 		return (
 			<div className='layer-values'>
-				{this.getValue(value)}
+				{this.getValue(value, 'gray')}
 			</div>
 		)
 	}
@@ -54,14 +54,18 @@ export default class LayerData extends Component<Props, State>
 	private getThreeValues(r: number, g: number, b: number) {
 		return (
 			<div className='layer-values'>
-				{this.getValue(r)}
-				{this.getValue(g)}
-				{this.getValue(b)}
+				{this.getValue(r, 'red')}
+				{this.getValue(g, 'green')}
+				{this.getValue(b, 'blue')}
 			</div>
 		)
 	}
 
-	private getValue(value: number) {
-		return <div className='layer-value'>{value}</div>
+	private getValue(value: number, className: string) {
+		if (!value) value = 0;
+		let str = value.toString();
+		while (str.length < 3)
+			str = `0${str}`;
+		return <div className={`layer-value ${className}`}>{str}</div>
 	}
 }

@@ -1,0 +1,17 @@
+.crosshair>rect{
+	fill: red;
+}
+
+.crosshair>.crosshair-outline {
+	animation: crosshair-outline-frame 60s linear infinite;
+	stroke: rgba(10, 10, 60, 0.5);
+	stroke-dasharray: 31.4;
+	fill: transparent;
+	stroke-width: 4;
+}
+
+@keyframes crosshair-outline-frame {
+	to {
+		stroke-dashoffset: 1000;
+	}
+}
