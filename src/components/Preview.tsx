@@ -8,7 +8,8 @@ import '../styles/Preview.css'
 type Props = {
 	main: Layer,
 	overlay: Layer,
-	onMouseMove?: (x: number, y: number) => void
+	onMouseMove?: (x: number, y: number) => void,
+	fullView: boolean
 }
 type State = {
 	x: number,
@@ -47,14 +48,20 @@ export default class Preview extends Component<Props, State>
 
 		if (!this.props.main) return <div className='preview' />
 
-		const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
+
+		let maskStyle: React.CSSProperties = { position: 'absolute', left: 0, top: 0 };
+
+		if (!this.props.fullView) {
+			const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
+			maskStyle = { ...maskStyle, clipPath: mask, WebkitClipPath: mask }
+		}
 
 		return (
 			<div className='preview' >
 				<div style={{ position: 'relative', cursor: 'none', width: main.width, height: main.height }} onMouseMove={this.mouseMoved}>
 					<LayerPreview layer={main} />
 					{overlay &&
-						<div style={{ clipPath: mask, WebkitClipPath: mask, position: 'absolute', left: 0, top: 0 }}>
+						<div style={maskStyle}>
 							<LayerPreview layer={overlay} />
 						</div>
 					}

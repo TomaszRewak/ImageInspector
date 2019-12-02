@@ -4,7 +4,8 @@ import { ImageSelector } from './ImageSelector';
 import RasterImage from '../lib/RasterImage';
 
 type Props = {
-	imageSelected: (image: RasterImage) => void
+	imageSelected: (image: RasterImage) => void,
+	toggleFullView: () => void
 }
 type State = {}
 
@@ -15,6 +16,7 @@ export default class Menu extends Component<Props, State>
 			<div className='menu'>
 				<ImageSelector selected={this.props.imageSelected} />
 				<div>Save layers</div>
+				<button onClick={this.props.toggleFullView} />
 			</div>
 		);
 	}
