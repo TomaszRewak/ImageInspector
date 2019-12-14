@@ -4,12 +4,42 @@
 	flex-direction: column;
 }
 
-.layers > .preview-data {
+.layers>.preview-data {
 	flex: 1;
 }
 
 .layer-data {
-	margin: 10px;
+	margin: 5px;
+	padding: 5px;
+	cursor: pointer;
+	transition-duration: 200ms;
+}
+
+.layer-data.selected {
+	background: rgba(69, 118, 158, 0.15)
+}
+
+.layer-data>.layer-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.layer-data>.layer-header>.edit {
+	cursor: pointer;
+	background: rgba(0,0,0,0.1);
+    border-radius: 100px;
+    padding: 0 10px;
+	opacity: 0;
+	transition-duration: 200ms;
+}
+
+.layer-data:hover>.layer-header>.edit {
+	opacity: 1;
+}
+
+.layer-data:first-child>.layer-header>.edit {
+	visibility: collapse;
 }
 
 .layer-data>.layer-values {
@@ -48,7 +78,7 @@
 	justify-self: center;
 }
 
-.coordinates > .coordinate {
+.coordinates>.coordinate {
 	font-family: 'Source Code Pro', monospace;
 	font-size: 20px;
 }
