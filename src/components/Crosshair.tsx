@@ -4,7 +4,6 @@ import '../styles/Crosshair.css'
 export default function Crosshair(props: { x: number, y: number }) {
 	return (
 		<svg className='crosshair' style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-			<circle className='crosshair-outline' cx={props.x} cy={props.y} r='50' />
 			<rect x={props.x - 4} y={props.y} width={4} height={1} />
 			<rect x={props.x + 1} y={props.y} width={4} height={1} />
 			<rect x={props.x} y={props.y - 4} width={1} height={4} />

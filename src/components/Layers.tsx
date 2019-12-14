@@ -28,9 +28,16 @@ export default class Layers extends Component<Props, State>
 	public render() {
 		return (
 			<div className='layers'>
-				<div>{this.props.x}</div>
-				<div>{this.props.y}</div>
-				{this.props.layers.map((layer, key) => <LayerData key={key} layer={layer} x={this.props.x} y={this.props.y} selected={this.selected} />)}
+				<div className='preview-data'>
+					{this.props.layers.map((layer, key) => <LayerData key={key} layer={layer} x={this.props.x} y={this.props.y} selected={this.selected} />)}
+				</div>
+				<div className='coordinates'>
+					<div>{'{ x: '}</div>
+					<div className='coordinate'>{Math.round(this.props.x)}</div>
+					<div>{', y: '}</div>
+					<div className='coordinate'>{Math.round(this.props.y)}</div>
+					<div>{'}'}</div>
+				</div>
 			</div>
 		);
 	}
