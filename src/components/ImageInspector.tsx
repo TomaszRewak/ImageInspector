@@ -7,6 +7,7 @@ import Layers from './Layers';
 import '../styles/ImageInspector.css'
 import Menu from './Menu';
 import { number } from 'prop-types';
+import ShaderEditor from './ShaderEditor';
 
 type Props = {}
 type State = {
@@ -71,7 +72,8 @@ export default class ImageInspector extends Component<Props, State>
 					imageSelected={this.imageSelected}
 					toggleFullView={this.toggleFullView} />
 				{!!this.state.editedLayer &&
-					<div />
+					<ShaderEditor
+						shader={this.state.layers[this.state.editedLayer].shader}/>
 				}
 				{!this.state.editedLayer &&
 					<Preview

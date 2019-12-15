@@ -39,6 +39,8 @@ export default function renderImage(gl: WebGLRenderingContext, image: RasterImag
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);	
 		gl.clear(gl.COLOR_BUFFER_BIT);	
 		gl.useProgram(program);
+		
+		gl.uniform2f(gl.getUniformLocation(program, 'uSize'), image.width, image.height);
 	
 		bindBuffer(gl, program, vertexBuffer, 'aVertexPosition');
 		bindBuffer(gl, program, textureCoordinatesBuffer, 'aTexturePosition');

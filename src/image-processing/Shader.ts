@@ -1,10 +1,12 @@
 const vertexShader =
 	`
+precision highp float;
+
 attribute vec4 aVertexPosition;
 attribute vec2 aTexturePosition;
 
-varying lowp vec4 canvasPosition;
-varying lowp vec2 texturePosition;
+varying vec4 canvasPosition;
+varying vec2 texturePosition;
 
 void main() {
 	gl_Position = aVertexPosition;
@@ -15,12 +17,21 @@ void main() {
 
 const fragmentShaderPrefix =
 	`
-uniform sampler2D uSampler;
+precision highp float;
 
-varying lowp vec4 canvasPosition;
-varying lowp vec2 texturePosition;
+uniform sampler2D uSampler;
+uniform vec2 uSize;
+
+varying vec4 canvasPosition;
+varying vec2 texturePosition;
+
+vec4 colorAt(float x, float y)
+{
+	return texture2D(uSampler, vec2(x / uSize.x, y / uSize.y));
+}
 
 void main() {
+	vec2 position = vec2(texturePosition.x * uSize.x, texturePosition.y * uSize.y);
 `;
 
 const fragmentShaderPostfix =
@@ -52,8 +63,8 @@ export default class Shader {
 		return new Shader(
 			'Vertical line detector',
 			`
-				lowp vec4 sample1 = texture2D(uSampler, vec2(texturePosition.x - 0.01, texturePosition.y));
-				lowp vec4 sample2 = texture2D(uSampler, vec2(texturePosition.x + 0.01, texturePosition.y));
+				lowp vec4 sample1 = colorAt(position.x - 1.0, position.y);
+				lowp vec4 sample2 = colorAt(position.x + 1.0, position.y);
 
 				lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
@@ -73,8 +84,8 @@ export default class Shader {
 		return new Shader(
 			'Horizontal line detector',
 			`
-				lowp vec4 sample1 = texture2D(uSampler, vec2(texturePosition.x, texturePosition.y - 0.01));
-				lowp vec4 sample2 = texture2D(uSampler, vec2(texturePosition.x, texturePosition.y + 0.01));
+				lowp vec4 sample1 = colorAt(position.x, position.y - 1.0);
+				lowp vec4 sample2 = colorAt(position.x, position.y + 1.0);
 
 				lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
