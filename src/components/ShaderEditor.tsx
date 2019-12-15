@@ -12,12 +12,13 @@ export default class ShaderEditor extends Component<Props, State> {
 	public render() {
 		return (
 			<div className='shader-editor'>
-				<div>
+				<div className='header'>Name</div>
+				<div contentEditable={true} className='name-editor'>
 					{this.props.shader.name}
 				</div>
-				<div>Vertex shader</div>
+				<div className='header'>Vertex shader</div>
 				<AceEditor mode='glsl' theme='chrome' value={this.props.shader.vertexShaderSource} className='code-editor vertex' />
-				<div>Fragment shader</div>
+				<div className='header'>Fragment shader</div>
 				<AceEditor mode='glsl' theme='chrome' value={this.props.shader.fragmentShaderSource} className='code-editor fragment' />
 			</div>
 		)
