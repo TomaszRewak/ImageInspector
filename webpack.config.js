@@ -28,7 +28,8 @@ module.exports = {
     },
     externals: {
         "react": "React",
-        "react-dom": "ReactDOM"
+        "react-dom": "ReactDOM",
+        "react-ace": "ReactAce"
     },
     watch: true
 };

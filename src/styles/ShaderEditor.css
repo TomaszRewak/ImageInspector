@@ -1,0 +1,19 @@
+.shader-editor {
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	margin: 20px;
+}
+
+.code-editor {
+	width: auto !important;
+	height: auto !important;
+}
+
+.code-editor.vertex {
+	flex: 1;
+}
+
+.code-editor.fragment {
+	flex: 2;
+}

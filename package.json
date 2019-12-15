@@ -30,7 +30,9 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "ace-builds": "^1.4.7",
     "react": "^16.11.0",
+    "react-ace": "^8.0.0",
     "react-dom": "^16.11.0"
   }
 }
