@@ -62,7 +62,7 @@ export default class Preview extends Component<Props, State>
 
 		const radius = !this.props.fullView && this.state.mouseOver
 			? 50
-			: Math.max(this.props.main.width, this.props.main.height) * Math.sqrt(2);
+			: Math.sqrt(this.props.main.width * this.props.main.width + this.props.main.height * this.props.main.height);
 
 		return (
 			<div className='preview' >

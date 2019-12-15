@@ -4,7 +4,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-image: repeating-linear-gradient(-45deg, #505050 0 20px, #4e4e4e 20px 40px);
+	background-image: repeating-linear-gradient(-45deg, #f1f1f1 0 20px, #e6e6e6 20px 40px);
 }
 
 .layer-mask {
