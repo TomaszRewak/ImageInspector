@@ -6,3 +6,15 @@
 	justify-content: center;
 	background-image: repeating-linear-gradient(-45deg, #505050 0 20px, #4e4e4e 20px 40px);
 }
+
+.layer-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-clip-path: url(#svgStars);
+	clip-path: url(#svgStars);
+}
+
+.layer-mask>svg clipPath circle {
+	transition: r 400ms;
+}

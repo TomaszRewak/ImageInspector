@@ -13,7 +13,8 @@ type Props = {
 }
 type State = {
 	x: number,
-	y: number
+	y: number,
+	mouseOver: boolean
 }
 
 export default class Preview extends Component<Props, State>
@@ -23,10 +24,13 @@ export default class Preview extends Component<Props, State>
 
 		this.state = {
 			x: 0,
-			y: 0
+			y: 0,
+			mouseOver: false
 		};
 
 		this.mouseMoved = this.mouseMoved.bind(this);
+		this.mouseLeft = this.mouseLeft.bind(this);
+		this.mouseEntered = this.mouseEntered.bind(this);
 	}
 
 	private mouseMoved(event: MouseEvent) {
@@ -43,29 +47,48 @@ export default class Preview extends Component<Props, State>
 		event.preventDefault();
 	}
 
+	private mouseLeft() {
+		this.setState({ mouseOver: false });
+	}
+
+	private mouseEntered() {
+		this.setState({ mouseOver: true });
+	}
+
 	public render(): React.ReactNode {
 		const { main, overlay } = this.props;
 
 		if (!this.props.main) return <div className='preview' />
 
-
-		let maskStyle: React.CSSProperties = { position: 'absolute', left: 0, top: 0 };
-
-		if (!this.props.fullView) {
-			const mask = `circle(50px at ${this.state.x}px ${this.state.y}px)`;
-			maskStyle = { ...maskStyle, clipPath: mask, WebkitClipPath: mask }
-		}
+		const radius = !this.props.fullView && this.state.mouseOver
+			? 50
+			: Math.max(this.props.main.width, this.props.main.height) * Math.sqrt(2);
 
 		return (
 			<div className='preview' >
-				<div style={{ position: 'relative', cursor: 'none', width: main.width, height: main.height }} onMouseMove={this.mouseMoved}>
+				<div
+					style={{ position: 'relative', cursor: 'none', width: main.width, height: main.height }}
+					onMouseMove={this.mouseMoved}
+					onMouseLeave={this.mouseLeft}
+					onMouseEnter={this.mouseEntered}>
 					<LayerPreview layer={main} />
 					{overlay &&
-						<div style={maskStyle}>
+						<div className='layer-mask'>
 							<LayerPreview layer={overlay} />
+							<svg width='0' height='0'>
+								<defs>
+									<clipPath id='svgStars'>
+										<rect x='-1' y='-1' width='1' height='1' />
+										<circle r={radius} cx={this.state.x} cy={this.state.y} />
+										<rect x={this.props.main.width} y={this.props.main.height} width='1' height='1' />
+									</clipPath>
+								</defs>
+							</svg>
 						</div>
 					}
-					<Crosshair x={this.state.x} y={this.state.y} />
+					{this.state.mouseOver &&
+						<Crosshair x={this.state.x} y={this.state.y} />
+					}
 				</div>
 			</div>
 		);
