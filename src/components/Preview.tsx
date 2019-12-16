@@ -8,8 +8,7 @@ import '../styles/Preview.css'
 type Props = {
 	main: Layer,
 	overlay: Layer,
-	onMouseMove?: (x: number, y: number) => void,
-	fullView: boolean
+	onMouseMove?: (x: number, y: number) => void
 }
 type State = {
 	x: number,
@@ -60,7 +59,7 @@ export default class Preview extends Component<Props, State>
 
 		if (!this.props.main) return <div className='preview' />
 
-		const radius = !this.props.fullView && this.state.mouseOver
+		const radius = this.state.mouseOver
 			? 50
 			: Math.sqrt(this.props.main.width * this.props.main.width + this.props.main.height * this.props.main.height);
 
@@ -87,7 +86,7 @@ export default class Preview extends Component<Props, State>
 							</svg>
 						</div>
 					}
-					{/* {this.state.mouseOver && */
+					{this.state.mouseOver &&
 						<Crosshair x={this.state.x} y={this.state.y} />
 					}
 				</div>

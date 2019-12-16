@@ -15,7 +15,6 @@ type State = {
 	selectedLayer: number,
 	x: number,
 	y: number,
-	fullView: boolean,
 	editedLayer?: number
 }
 
@@ -28,15 +27,13 @@ export default class ImageInspector extends Component<Props, State>
 			layers: [],
 			selectedLayer: 1,
 			x: 0,
-			y: 0,
-			fullView: false
+			y: 0
 		}
 
 		this.imageSelected = this.imageSelected.bind(this);
 		this.mouseMoved = this.mouseMoved.bind(this);
 		this.selected = this.selected.bind(this);
 		this.edit = this.edit.bind(this);
-		this.toggleFullView = this.toggleFullView.bind(this);
 	}
 
 	private imageSelected(baseImage: RasterImage) {
@@ -61,16 +58,11 @@ export default class ImageInspector extends Component<Props, State>
 		this.setState({ editedLayer });
 	}
 
-	private toggleFullView() {
-		this.setState(state => ({ fullView: !state.fullView }))
-	}
-
 	public render(): React.ReactNode {
 		return (
 			<div className='image-inspector fill'>
 				<Menu
-					imageSelected={this.imageSelected}
-					toggleFullView={this.toggleFullView} />
+					imageSelected={this.imageSelected} />
 				{!!this.state.editedLayer &&
 					<ShaderEditor
 						shader={this.state.layers[this.state.editedLayer].shader}/>
@@ -79,8 +71,7 @@ export default class ImageInspector extends Component<Props, State>
 					<Preview
 						main={this.state.layers[0]}
 						overlay={this.state.layers[this.state.selectedLayer]}
-						onMouseMove={this.mouseMoved}
-						fullView={this.state.fullView} />
+						onMouseMove={this.mouseMoved} />
 				}
 				<Layers
 					layers={this.state.layers}
