@@ -67,7 +67,8 @@ export default class Preview extends Component<Props, State>
 		return (
 			<div className='preview' >
 				<div
-					style={{ position: 'relative', cursor: 'none', width: main.width, height: main.height }}
+					className='image'
+					style={{ width: main.width, height: main.height }}
 					onMouseMove={this.mouseMoved}
 					onMouseLeave={this.mouseLeft}
 					onMouseEnter={this.mouseEntered}>

@@ -35,3 +35,26 @@
 	padding: 5px 15px;
 	margin-left: 40px;
 }
+
+.shader-editor>.options {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.shader-editor>.options>.option {
+	background: rgb(214, 214, 214);
+	padding: 5px 15px;
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+.shader-editor>.options>.option:hover {
+	filter: brightness(0.8);
+}
+
+.shader-editor>.options>.option.save {
+	background: rgb(13, 52, 124);
+	color: white;
+}

@@ -15,6 +15,7 @@ export default class Menu extends Component<Props, State>
 		return (
 			<div className='menu'>
 				<ImageSelector selected={this.props.imageSelected} />
+				<div>Load layers</div>
 				<div>Save layers</div>
 				<button onClick={this.props.toggleFullView} />
 			</div>

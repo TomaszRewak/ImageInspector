@@ -29,7 +29,6 @@ export default class LayerData extends Component<Props, State>
 
 	private edit(e: React.MouseEvent) {
 		this.props.onEdit(this.props.layer);
-		e.stopPropagation();
 	}
 
 	public render() {

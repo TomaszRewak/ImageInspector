@@ -20,6 +20,10 @@ export default class ShaderEditor extends Component<Props, State> {
 				<AceEditor mode='glsl' theme='chrome' value={this.props.shader.vertexShaderSource} className='code-editor vertex' />
 				<div className='header'>Fragment shader</div>
 				<AceEditor mode='glsl' theme='chrome' value={this.props.shader.fragmentShaderSource} className='code-editor fragment' />
+				<div className='options'>
+					<div className='option save'>Save</div>
+					<div className='option cancel'>Cancel</div>
+				</div>
 			</div>
 		)
 	}

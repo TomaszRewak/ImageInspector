@@ -2,4 +2,9 @@
 	grid-area: menu;
 	display: flex;
 	flex-direction: row;
+	align-items: center;
+}
+
+.menu > * {
+	margin: 0 10px;
 }
