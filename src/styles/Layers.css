@@ -69,15 +69,3 @@
 .layer-data>.layer-values>.layer-value.gray {
 	color: rgb(100, 100, 100);
 }
-
-.coordinates {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	justify-self: center;
-}
-
-.coordinates>.coordinate {
-	font-family: 'Source Code Pro', monospace;
-	font-size: 20px;
-}

@@ -46,13 +46,6 @@ export default class Layers extends Component<Props, State>
 							onSelected={this.selected}
 							onEdit={this.edit} />)}
 				</div>
-				<div className='coordinates'>
-					<div>{'{ x: '}</div>
-					<div className='coordinate'>{Math.round(this.props.x)}</div>
-					<div>{', y: '}</div>
-					<div className='coordinate'>{Math.round(this.props.y)}</div>
-					<div>{'}'}</div>
-				</div>
 			</div>
 		);
 	}
