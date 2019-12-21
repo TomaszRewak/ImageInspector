@@ -73,3 +73,7 @@
 .layer-data>.layer-values>.layer-value.gray {
 	color: rgb(100, 100, 100);
 }
+
+.layer-data>.layer-values>.layer-value.placeholder {
+	color: rgb(234, 234, 234);
+}

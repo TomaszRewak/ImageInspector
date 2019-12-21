@@ -3,8 +3,7 @@ import Layer from '../image-processing/Layer';
 
 type Props = {
 	layer: Layer,
-	x: number,
-	y: number,
+	position: { x: number, y: number } | undefined,
 	isSelected: boolean,
 	onSelected: (layer: Layer) => void
 	onEdit: (layer: Layer) => void
@@ -41,13 +40,22 @@ export default class LayerData extends Component<Props, State>
 					<div className='layer-name'>{this.props.layer.shader.name}</div>
 					<div className='edit' onClick={this.edit}>🖉</div>
 				</div>
-				{this.getValues()}
+				{this.props.position &&
+					this.getValues(this.props.position.x, this.props.position.y)
+				}
+				{!this.props.position &&
+					<div className='layer-values'>
+						<div className='layer-value placeholder'>000</div>
+						<div className='layer-value placeholder'>000</div>
+						<div className='layer-value placeholder'>000</div>
+					</div>
+				}
 			</div>
 		);
 	}
 
-	private getValues() {
-		const value = this.props.layer.getValue(this.props.x, this.props.y)
+	private getValues(x: number, y: number) {
+		const value = this.props.layer.getValue(x, y)
 
 		if (value.r == value.g && value.g == value.b)
 			return this.getSingleValue(value.r);
@@ -58,7 +66,9 @@ export default class LayerData extends Component<Props, State>
 	private getSingleValue(value: number) {
 		return (
 			<div className='layer-values'>
+				{this.getValue(value, 'placeholder')}
 				{this.getValue(value, 'gray')}
+				{this.getValue(value, 'placeholder')}
 			</div>
 		)
 	}

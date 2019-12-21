@@ -14,8 +14,7 @@ type State = {
 	baseImage?: RasterImage,
 	layers: Layer[],
 	selectedLayer: number,
-	x: number,
-	y: number,
+	position: { x: number, y: number } | undefined,
 	editedLayer?: number
 }
 
@@ -30,8 +29,7 @@ export default class ImageInspector extends Component<Props, State>
 				new Layer(undefined, Shader.verticalLines),
 				new Layer(undefined, Shader.horizontalLines)],
 			selectedLayer: 1,
-			x: 0,
-			y: 0
+			position: undefined
 		}
 	}
 
@@ -42,8 +40,8 @@ export default class ImageInspector extends Component<Props, State>
 		});
 	}
 
-	private mouseMoved = (x: number, y: number) => {
-		this.setState({ x, y });
+	private mouseMoved = (position: { x: number, y: number } | undefined) => {
+		this.setState({ position });
 	}
 
 	private selected = (selectedLayer: number) => {
@@ -88,8 +86,7 @@ export default class ImageInspector extends Component<Props, State>
 				}
 				<Layers
 					layers={this.state.layers}
-					x={this.state.x}
-					y={this.state.y}
+					position={this.state.position}
 					selectedLayer={this.state.selectedLayer}
 					onSelected={this.selected}
 					onEdit={this.edit} />

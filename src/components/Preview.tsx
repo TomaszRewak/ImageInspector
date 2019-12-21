@@ -8,7 +8,7 @@ import '../styles/Preview.css'
 type Props = {
 	main: Layer,
 	overlay: Layer,
-	onMouseMove?: (x: number, y: number) => void
+	onMouseMove: (position: { x: number, y: number } | undefined) => void
 }
 type State = {
 	x: number,
@@ -39,8 +39,7 @@ export default class Preview extends Component<Props, State>
 
 		this.setState({ x, y })
 
-		if (this.props.onMouseMove)
-			this.props.onMouseMove(x, y);
+		this.props.onMouseMove({ x, y });
 
 		event.stopPropagation();
 		event.preventDefault();
@@ -48,6 +47,7 @@ export default class Preview extends Component<Props, State>
 
 	private mouseLeft() {
 		this.setState({ mouseOver: false });
+		this.props.onMouseMove(undefined);
 	}
 
 	private mouseEntered() {

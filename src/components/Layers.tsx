@@ -5,8 +5,7 @@ import '../styles/layers.css'
 
 type Props = {
 	layers: Layer[],
-	x: number,
-	y: number,
+	position: { x: number, y: number } | undefined
 	selectedLayer: number,
 	onSelected: (index: number) => void,
 	onEdit: (index: number) => void
@@ -40,8 +39,7 @@ export default class Layers extends Component<Props, State>
 						<LayerData
 							key={key}
 							layer={layer}
-							x={this.props.x}
-							y={this.props.y}
+							position={this.props.position}
 							isSelected={key == this.props.selectedLayer}
 							onSelected={this.selected}
 							onEdit={this.edit} />)}
