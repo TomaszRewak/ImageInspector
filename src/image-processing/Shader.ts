@@ -68,7 +68,7 @@ ${fragmentShaderPostfix}`
 	lowp vec4 sample1 = colorAt(position.x - 1.0, position.y);
 	lowp vec4 sample2 = colorAt(position.x + 1.0, position.y);
 
-	lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	lowp float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
 	lowp vec4 color = vec4(
 		diff,
@@ -90,7 +90,7 @@ ${fragmentShaderPostfix}`
 	lowp vec4 sample1 = colorAt(position.x, position.y - 1.0);
 	lowp vec4 sample2 = colorAt(position.x, position.y + 1.0);
 
-	lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	lowp float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
 	lowp vec4 color = vec4(
 		diff,

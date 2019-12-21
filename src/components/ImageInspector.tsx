@@ -25,7 +25,10 @@ export default class ImageInspector extends Component<Props, State>
 		super(props);
 
 		this.state = {
-			layers: [],
+			layers: [
+				new Layer(undefined, Shader.identity),
+				new Layer(undefined, Shader.verticalLines),
+				new Layer(undefined, Shader.horizontalLines)],
 			selectedLayer: 1,
 			x: 0,
 			y: 0
@@ -35,11 +38,7 @@ export default class ImageInspector extends Component<Props, State>
 	private imageSelected = (baseImage: RasterImage) => {
 		this.setState({
 			baseImage,
-			layers: [
-				new Layer(baseImage, Shader.identity),
-				new Layer(baseImage, Shader.verticalLines),
-				new Layer(baseImage, Shader.horizontalLines)
-			]
+			layers: this.state.layers.map(layer => new Layer(baseImage, layer.shader))
 		});
 	}
 
