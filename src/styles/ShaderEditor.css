@@ -69,3 +69,17 @@
 	background: rgb(124, 13, 13);
 	color: white;
 }
+
+.shader-editor>.logs {
+	max-height: 100px;
+	overflow-y: auto;
+	margin-left: 40px;
+	background: #e0e0e0;
+	padding: 3px 15px;
+	margin-top: 20px;
+	border: 1px solid #c7c7c7;
+}
+
+.shader-editor>.logs.error {
+	color: #af1919;
+}

@@ -30,14 +30,9 @@ export default class ImageInspector extends Component<Props, State>
 			x: 0,
 			y: 0
 		}
-
-		this.imageSelected = this.imageSelected.bind(this);
-		this.mouseMoved = this.mouseMoved.bind(this);
-		this.selected = this.selected.bind(this);
-		this.edit = this.edit.bind(this);
 	}
 
-	private imageSelected(baseImage: RasterImage) {
+	private imageSelected = (baseImage: RasterImage) => {
 		this.setState({
 			baseImage,
 			layers: [
@@ -48,16 +43,28 @@ export default class ImageInspector extends Component<Props, State>
 		});
 	}
 
-	private mouseMoved(x: number, y: number) {
+	private mouseMoved = (x: number, y: number) => {
 		this.setState({ x, y });
 	}
 
-	private selected(selectedLayer: number) {
+	private selected = (selectedLayer: number) => {
 		this.setState({ selectedLayer });
 	}
 
-	private edit(editedLayer: number) {
+	private edit = (editedLayer: number) => {
 		this.setState({ editedLayer });
+	}
+
+	private save = (oldShader: Shader, newShader: Shader) => {
+		this.setState({ layers: this.state.layers.map(layer => layer.shader == oldShader ? new Layer(this.state.baseImage, newShader) : layer), editedLayer: undefined });
+	}
+
+	private cancel = () => {
+		this.setState({ editedLayer: undefined })
+	}
+
+	private delete = (shader: Shader) => {
+		this.setState({ layers: this.state.layers.filter(layer => layer.shader != shader), selectedLayer: 0, editedLayer: undefined })
 	}
 
 	public render(): React.ReactNode {
@@ -69,7 +76,10 @@ export default class ImageInspector extends Component<Props, State>
 					<ShaderEditor
 						key={this.state.editedLayer}
 						image={this.state.baseImage}
-						shader={this.state.layers[this.state.editedLayer].shader}/>
+						shader={this.state.layers[this.state.editedLayer].shader}
+						onSave={this.save}
+						onCancel={this.cancel}
+						onDelete={this.delete} />
 				}
 				{!this.state.editedLayer &&
 					<Preview

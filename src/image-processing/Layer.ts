@@ -8,19 +8,30 @@ export default class Layer {
 	private readonly _canvas: HTMLCanvasElement;
 	private readonly _context: WebGLRenderingContext;
 	private readonly _data: Uint8Array;
+	private readonly _renderingError?: string;
 
-	public constructor(image: RasterImage, shader: Shader) {
+	public constructor(image: RasterImage | undefined, shader: Shader) {
 		this._shader = shader;
 		this._canvas = document.createElement('canvas');
 		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
-		this._data = new Uint8Array(4 * image.width * image.height);
 
+		if (!image) {
+			this._renderingError = 'No image selected';
+			this._data = new Uint8Array(0);
+			return;
+		}
+
+		this._data = new Uint8Array(4 * image.width * image.height);
 		this._canvas.width = image.width;
 		this._canvas.height = image.height;
 
-		renderImage(this._context, image, shader);
-
-		this._context.readPixels(0, 0, image.width, image.height, this._context.RGBA, this._context.UNSIGNED_BYTE, this._data);
+		try {
+			renderImage(this._context, image, shader);
+			this._context.readPixels(0, 0, image.width, image.height, this._context.RGBA, this._context.UNSIGNED_BYTE, this._data);
+		}
+		catch (error) {
+			this._renderingError = error.message;
+		}
 	}
 
 	public get width(): number {
@@ -33,6 +44,10 @@ export default class Layer {
 
 	public get shader(): Shader {
 		return this._shader;
+	}
+
+	public get renderingError(): string | undefined {
+		return this._renderingError;
 	}
 
 	public draw(destination: HTMLCanvasElement) {

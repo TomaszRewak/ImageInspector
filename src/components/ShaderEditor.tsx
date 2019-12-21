@@ -4,16 +4,21 @@ import AceEditor from 'react-ace';
 import '../styles/ShaderEditor.css'
 import RasterImage from '../lib/RasterImage';
 import Layer from '../image-processing/Layer';
+import { ViewportWidthProperty } from 'csstype';
 
 type Props = {
 	shader: Shader,
-	image: RasterImage
+	image: RasterImage,
+	onSave: (oldValue: Shader, newValue: Shader) => void,
+	onDelete: (shader: Shader) => void,
+	onCancel: () => void
 }
 type State = {
 	name: string
 	vertexShaderSource: string,
 	fragmentShaderSource: string,
-	error?: string
+	error?: string,
+	compiled: boolean
 }
 
 export default class ShaderEditor extends Component<Props, State> {
@@ -21,45 +26,44 @@ export default class ShaderEditor extends Component<Props, State> {
 		name: this.props.shader.name,
 		vertexShaderSource: this.props.shader.vertexShaderSource,
 		fragmentShaderSource: this.props.shader.fragmentShaderSource,
-		error: undefined
+		error: undefined,
+		compiled: false
 	}
 
 	private compile = () => {
-		try {
-			new Layer(this.props.image, this.shader);
-		}
-		catch (error) {
-			this.setState({ error });
-		}
+		var layer = new Layer(this.props.image, this.shader);
+
+		if (layer.renderingError)
+			this.setState({ error: layer.renderingError, compiled: false });
+		else
+			this.setState({ error: undefined, compiled: true });
 	}
 
 	private save = () => {
-
+		this.props.onSave(this.props.shader, this.shader);
 	}
 
 	private delete = () => {
-
+		this.props.onDelete(this.props.shader);
 	}
 
 	private cancel = () => {
-
+		this.props.onCancel();
 	}
 
 	private vertexShaderChanged = (vertexShaderSource: string) => {
-		this.setState({ vertexShaderSource });
+		this.setState({ vertexShaderSource, compiled: false });
 	}
 
 	private fragmentShaderChanged = (fragmentShaderSource: string) => {
-		this.setState({ fragmentShaderSource });
+		this.setState({ fragmentShaderSource, compiled: false });
 	}
 
-	private get shader()
-	{
+	private get shader() {
 		return new Shader(this.state.name, this.state.vertexShaderSource, this.state.fragmentShaderSource);
 	}
 
 	public render() {
-		console.dir(this.state.error)
 		return (
 			<div className='shader-editor'>
 				<div className='header'>Name</div>
@@ -86,7 +90,12 @@ export default class ShaderEditor extends Component<Props, State> {
 					<div className='option delete' onClick={this.delete}>Delete</div>
 					<div className='option cancel' onClick={this.cancel}>Cancel</div>
 				</div>
-				<pre>{`${this.state.error}`}</pre>
+				{this.state.error &&
+					<pre className='logs error'>{this.state.error}</pre>
+				}
+				{this.state.compiled &&
+					<pre className='logs'>Compiled successfully</pre>
+				}
 			</div>
 		)
 	}

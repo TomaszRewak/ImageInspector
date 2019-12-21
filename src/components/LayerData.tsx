@@ -33,7 +33,10 @@ export default class LayerData extends Component<Props, State>
 
 	public render() {
 		return (
-			<div className={`layer-data ${this.props.isSelected && 'selected'}`} onClick={this.selected}>
+			<div
+				className={`layer-data ${this.props.isSelected && 'selected'} ${this.props.layer.renderingError && 'error'}`}
+				onClick={this.selected}
+				title={this.props.layer.renderingError}>
 				<div className='layer-header'>
 					<div className='layer-name'>{this.props.layer.shader.name}</div>
 					<div className='edit' onClick={this.edit}>🖉</div>
