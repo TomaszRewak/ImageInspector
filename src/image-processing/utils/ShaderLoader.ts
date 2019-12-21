@@ -7,7 +7,7 @@ export default function loadShader(gl: WebGLRenderingContext, type: number, sour
 	gl.compileShader(shader);
 
 	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-		throw Error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+		throw Error('An error occurred compiling the shaders:\n' + gl.getShaderInfoLog(shader));
 
 	return shader;
 }

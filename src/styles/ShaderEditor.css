@@ -48,13 +48,24 @@
 	padding: 5px 15px;
 	margin-left: 20px;
 	cursor: pointer;
+	user-select: none;
 }
 
 .shader-editor>.options>.option:hover {
 	filter: brightness(0.8);
 }
 
-.shader-editor>.options>.option.save {
+.shader-editor>.options>.option.compile {
 	background: rgb(13, 52, 124);
+	color: white;
+}
+
+.shader-editor>.options>.option.save {
+	background: rgb(13, 124, 46);
+	color: white;
+}
+
+.shader-editor>.options>.option.delete {
+	background: rgb(124, 13, 13);
 	color: white;
 }

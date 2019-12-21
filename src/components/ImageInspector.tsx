@@ -11,6 +11,7 @@ import ShaderEditor from './ShaderEditor';
 
 type Props = {}
 type State = {
+	baseImage?: RasterImage,
 	layers: Layer[],
 	selectedLayer: number,
 	x: number,
@@ -38,6 +39,7 @@ export default class ImageInspector extends Component<Props, State>
 
 	private imageSelected(baseImage: RasterImage) {
 		this.setState({
+			baseImage,
 			layers: [
 				new Layer(baseImage, Shader.identity),
 				new Layer(baseImage, Shader.verticalLines),
@@ -63,8 +65,10 @@ export default class ImageInspector extends Component<Props, State>
 			<div className='image-inspector fill'>
 				<Menu
 					imageSelected={this.imageSelected} />
-				{!!this.state.editedLayer &&
+				{!!this.state.editedLayer && this.state.baseImage &&
 					<ShaderEditor
+						key={this.state.editedLayer}
+						image={this.state.baseImage}
 						shader={this.state.layers[this.state.editedLayer].shader}/>
 				}
 				{!this.state.editedLayer &&

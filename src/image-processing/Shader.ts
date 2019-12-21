@@ -44,60 +44,63 @@ export default class Shader {
 	public readonly vertexShaderSource: string;
 	public readonly fragmentShaderSource: string;
 
-	constructor(name: string, shaderSource: string) {
+	constructor(name: string, vertexShaderSource: string, fragmentShaderSource: string) {
 		this.name = name;
-		this.vertexShaderSource = vertexShader;
-		this.fragmentShaderSource = `${fragmentShaderPrefix}${shaderSource}${fragmentShaderPostfix}`;
+		this.vertexShaderSource = vertexShaderSource;
+		this.fragmentShaderSource = fragmentShaderSource;
 	}
 
 	public static get identity() {
 		return new Shader(
 			'Base image',
-			`
-				gl_FragColor = texture2D(uSampler, texturePosition);
-			`
+			vertexShader,
+			`${fragmentShaderPrefix}
+	gl_FragColor = texture2D(uSampler, texturePosition);
+${fragmentShaderPostfix}`
 		);
 	}
 
 	public static get verticalLines() {
 		return new Shader(
 			'Vertical line detector',
-			`
-				lowp vec4 sample1 = colorAt(position.x - 1.0, position.y);
-				lowp vec4 sample2 = colorAt(position.x + 1.0, position.y);
+			vertexShader,
+			`${fragmentShaderPrefix}
+	lowp vec4 sample1 = colorAt(position.x - 1.0, position.y);
+	lowp vec4 sample2 = colorAt(position.x + 1.0, position.y);
 
-				lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
-				lowp vec4 color = vec4(
-					diff,
-					diff,
-					diff,
-					1
-				);
+	lowp vec4 color = vec4(
+		diff,
+		diff,
+		diff,
+		1
+	);
 
-				gl_FragColor = color;
-			`
+	gl_FragColor = color;
+${fragmentShaderPostfix}`
 		);
 	}
 
 	public static get horizontalLines() {
 		return new Shader(
 			'Horizontal line detector',
-			`
-				lowp vec4 sample1 = colorAt(position.x, position.y - 1.0);
-				lowp vec4 sample2 = colorAt(position.x, position.y + 1.0);
+			vertexShader,
+			`${fragmentShaderPrefix}
+	lowp vec4 sample1 = colorAt(position.x, position.y - 1.0);
+	lowp vec4 sample2 = colorAt(position.x, position.y + 1.0);
 
-				lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	lowp float diff = max(0.0, sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
-				lowp vec4 color = vec4(
-					diff,
-					diff,
-					diff,
-					1
-				);
+	lowp vec4 color = vec4(
+		diff,
+		diff,
+		diff,
+		1
+	);
 
-				gl_FragColor = color;
-			`
+	gl_FragColor = color;
+${fragmentShaderPostfix}`
 		);
 	}
 }

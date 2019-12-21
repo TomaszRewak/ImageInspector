@@ -7,8 +7,9 @@ export default function linkProgram(context: WebGLRenderingContext, program: Web
 
 	context.attachShader(program, vertexShader);
 	context.attachShader(program, fragmentShader);
+
 	context.linkProgram(program);
 
 	if (!context.getProgramParameter(program, context.LINK_STATUS))
-		throw Error(`Unable to initialize the shader program: ${context.getProgramInfoLog(program)}`);
+		throw Error(`Unable to link the shader program:\n${context.getProgramInfoLog(program)}`);
 }
