@@ -69,7 +69,7 @@ export default class ImageInspector extends Component<Props, State>
 			<div className='image-inspector fill'>
 				<Menu
 					imageSelected={this.imageSelected} />
-				{!!this.state.editedLayer && this.state.baseImage &&
+				{!!this.state.editedLayer &&
 					<ShaderEditor
 						key={this.state.editedLayer}
 						image={this.state.baseImage}
@@ -88,6 +88,7 @@ export default class ImageInspector extends Component<Props, State>
 					layers={this.state.layers}
 					position={this.state.position}
 					selectedLayer={this.state.selectedLayer}
+					editedLayer={this.state.editedLayer}
 					onSelected={this.selected}
 					onEdit={this.edit} />
 			</div>

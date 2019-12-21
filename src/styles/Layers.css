@@ -22,6 +22,11 @@
 	background: rgba(69, 118, 158, 0.15)
 }
 
+.layer-data.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 .layer-data>.layer-header {
 	display: flex;
 	flex-direction: row;

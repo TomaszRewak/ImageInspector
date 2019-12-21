@@ -8,7 +8,7 @@ import { ViewportWidthProperty } from 'csstype';
 
 type Props = {
 	shader: Shader,
-	image: RasterImage,
+	image?: RasterImage,
 	onSave: (oldValue: Shader, newValue: Shader) => void,
 	onDelete: (shader: Shader) => void,
 	onCancel: () => void
@@ -93,8 +93,11 @@ export default class ShaderEditor extends Component<Props, State> {
 				{this.state.error &&
 					<pre className='logs error'>{this.state.error}</pre>
 				}
-				{this.state.compiled &&
+				{!this.state.error && this.state.compiled &&
 					<pre className='logs'>Compiled successfully</pre>
+				}
+				{!this.state.error && !this.state.compiled &&
+					<pre className='logs'></pre>
 				}
 			</div>
 		)

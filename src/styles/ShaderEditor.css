@@ -71,7 +71,7 @@
 }
 
 .shader-editor>.logs {
-	max-height: 100px;
+	height: 100px;
 	overflow-y: auto;
 	margin-left: 40px;
 	background: #e0e0e0;

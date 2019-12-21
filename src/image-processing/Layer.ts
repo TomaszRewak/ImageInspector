@@ -16,7 +16,7 @@ export default class Layer {
 		this._context = this._canvas.getContext('webgl') || throwError('Cannot create the context');
 
 		if (!image) {
-			this._renderingError = 'No image selected';
+			this._renderingError = 'No image';
 			this._data = new Uint8Array(0);
 			return;
 		}

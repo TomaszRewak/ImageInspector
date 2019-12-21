@@ -7,6 +7,7 @@ type Props = {
 	layers: Layer[],
 	position: { x: number, y: number } | undefined
 	selectedLayer: number,
+	editedLayer?: number,
 	onSelected: (index: number) => void,
 	onEdit: (index: number) => void
 }
@@ -41,6 +42,7 @@ export default class Layers extends Component<Props, State>
 							layer={layer}
 							position={this.props.position}
 							isSelected={key == this.props.selectedLayer}
+							isDisabled={!!(this.props.editedLayer && key != this.props.editedLayer)}
 							onSelected={this.selected}
 							onEdit={this.edit} />)}
 				</div>

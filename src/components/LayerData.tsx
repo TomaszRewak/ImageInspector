@@ -5,6 +5,7 @@ type Props = {
 	layer: Layer,
 	position: { x: number, y: number } | undefined,
 	isSelected: boolean,
+	isDisabled: boolean,
 	onSelected: (layer: Layer) => void
 	onEdit: (layer: Layer) => void
 }
@@ -33,7 +34,7 @@ export default class LayerData extends Component<Props, State>
 	public render() {
 		return (
 			<div
-				className={`layer-data ${this.props.isSelected && 'selected'} ${this.props.layer.renderingError && 'error'}`}
+				className={`layer-data ${this.props.isSelected && 'selected'} ${this.props.layer.renderingError && 'error'} ${this.props.isDisabled && 'disabled'}`}
 				onClick={this.selected}
 				title={this.props.layer.renderingError}>
 				<div className='layer-header'>

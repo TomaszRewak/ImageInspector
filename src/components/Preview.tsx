@@ -57,7 +57,7 @@ export default class Preview extends Component<Props, State>
 	public render(): React.ReactNode {
 		const { main, overlay } = this.props;
 
-		if (!this.props.main) return <div className='preview' />
+		if (this.props.main.renderingError) return <div className='preview' />
 
 		const radius = this.state.mouseOver
 			? 50
