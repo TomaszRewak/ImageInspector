@@ -1,11 +1,6 @@
 .layers {
 	grid-area: layers;
-	display: flex;
-	flex-direction: column;
-}
-
-.layers>.preview-data {
-	flex: 1;
+	overflow: auto;
 }
 
 .layer-data {
@@ -81,4 +76,19 @@
 
 .layer-data>.layer-values>.layer-value.placeholder {
 	color: rgb(234, 234, 234);
+}
+
+.add-layer-button {
+	cursor: pointer;
+	user-select: none;
+	text-align: center;
+	justify-content: center;
+	background: #f7f7f7;
+	margin: 5px;
+	border: 1px solid #e6e6e6;
+	padding: 8px;
+}
+
+.add-layer-button:hover {
+	background: #eaeaea;
 }

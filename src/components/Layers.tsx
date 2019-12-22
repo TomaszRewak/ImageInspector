@@ -9,7 +9,8 @@ type Props = {
 	selectedLayer: number,
 	editedLayer?: number,
 	onSelected: (index: number) => void,
-	onEdit: (index: number) => void
+	onEdit: (index: number) => void,
+	onAdd: () => void
 }
 type State = {}
 
@@ -19,33 +20,29 @@ export default class Layers extends Component<Props, State>
 		super(props);
 
 		this.state = {};
-
-		this.selected = this.selected.bind(this);
-		this.edit = this.edit.bind(this);
 	}
 
-	private selected(layer: Layer) {
+	private selected = (layer: Layer) => {
 		this.props.onSelected(this.props.layers.indexOf(layer));
 	}
 
-	private edit(layer: Layer) {
+	private edit = (layer: Layer) => {
 		this.props.onEdit(this.props.layers.indexOf(layer));
 	}
 
 	public render() {
 		return (
 			<div className='layers'>
-				<div className='preview-data'>
-					{this.props.layers.map((layer, key) =>
-						<LayerData
-							key={key}
-							layer={layer}
-							position={this.props.position}
-							isSelected={key == this.props.selectedLayer}
-							isDisabled={!!(this.props.editedLayer && key != this.props.editedLayer)}
-							onSelected={this.selected}
-							onEdit={this.edit} />)}
-				</div>
+				{this.props.layers.map((layer, key) =>
+					<LayerData
+						key={key}
+						layer={layer}
+						position={this.props.position}
+						isSelected={key == this.props.selectedLayer}
+						isDisabled={!!(this.props.editedLayer && key != this.props.editedLayer)}
+						onSelected={this.selected}
+						onEdit={this.edit} />)}
+				<div className='add-layer-button' onClick={this.props.onAdd}>Add layer</div>
 			</div>
 		);
 	}

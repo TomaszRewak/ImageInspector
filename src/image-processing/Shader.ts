@@ -50,6 +50,14 @@ export default class Shader {
 		this.fragmentShaderSource = fragmentShaderSource;
 	}
 
+	public static get empty() {
+		return new Shader(
+			"New layer",
+			vertexShader,
+			`${fragmentShaderPrefix}${fragmentShaderPostfix}`
+		)
+	}
+
 	public static get identity() {
 		return new Shader(
 			'Base image',

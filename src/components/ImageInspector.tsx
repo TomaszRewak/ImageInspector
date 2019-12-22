@@ -6,7 +6,6 @@ import Shader from '../image-processing/Shader';
 import Layers from './Layers';
 import '../styles/ImageInspector.css'
 import Menu from './Menu';
-import { number } from 'prop-types';
 import ShaderEditor from './ShaderEditor';
 
 type Props = {}
@@ -64,6 +63,14 @@ export default class ImageInspector extends Component<Props, State>
 		this.setState({ layers: this.state.layers.filter(layer => layer.shader != shader), selectedLayer: 0, editedLayer: undefined })
 	}
 
+	private add = () => {
+		this.setState({
+			layers: [...this.state.layers, new Layer(this.state.baseImage, Shader.empty)],
+			editedLayer: this.state.layers.length,
+			selectedLayer: this.state.layers.length
+		})
+	}
+
 	public render(): React.ReactNode {
 		return (
 			<div className='image-inspector fill'>
@@ -90,7 +97,8 @@ export default class ImageInspector extends Component<Props, State>
 					selectedLayer={this.state.selectedLayer}
 					editedLayer={this.state.editedLayer}
 					onSelected={this.selected}
-					onEdit={this.edit} />
+					onEdit={this.edit}
+					onAdd={this.add} />
 			</div>
 		)
 	}
