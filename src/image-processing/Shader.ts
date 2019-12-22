@@ -14,7 +14,7 @@ const vertexShader =
 /**/ }`;
 
 function fragmentShader(algorithm: string) {
-	return `/**/precision highp float;
+	return `/**/ precision highp float;
 /**/
 /**/ uniform sampler2D uSampler;
 /**/ uniform vec2 uSize;
@@ -70,10 +70,10 @@ export default class Shader {
 			'Vertical line detector',
 			vertexShader,
 			fragmentShader(
-				`	lowp vec4 sample1 = colorAt(position.x - 1.0, position.y);
-	lowp vec4 sample2 = colorAt(position.x + 1.0, position.y);
+				`	vec4 sample1 = colorAt(position.x - 1.0, position.y);
+	vec4 sample2 = colorAt(position.x + 1.0, position.y);
 
-	lowp float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
 	return vec4(
 		diff,
@@ -88,10 +88,10 @@ export default class Shader {
 			'Horizontal line detector',
 			vertexShader,
 			fragmentShader(
-				`	lowp vec4 sample1 = colorAt(position.x, position.y - 1.0);
-	lowp vec4 sample2 = colorAt(position.x, position.y + 1.0);
+				`	vec4 sample1 = colorAt(position.x, position.y - 1.0);
+	vec4 sample2 = colorAt(position.x, position.y + 1.0);
 
-	lowp float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
+	float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
 	return vec4(
 		diff,
