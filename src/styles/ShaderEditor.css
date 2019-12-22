@@ -32,8 +32,11 @@
 
 .shader-editor>.name-editor {
 	background: white;
-	padding: 5px 15px;
-	margin-left: 40px;
+    padding: 5px 15px;
+    margin-left: 40px;
+    font: inherit;
+    border: none;
+    outline: none;
 }
 
 .shader-editor>.options {

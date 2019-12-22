@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, ChangeEvent } from 'react'
 import Shader from '../image-processing/Shader';
 import AceEditor from 'react-ace';
 import '../styles/ShaderEditor.css'
@@ -59,6 +59,10 @@ export default class ShaderEditor extends Component<Props, State> {
 		this.setState({ fragmentShaderSource, compiled: false });
 	}
 
+	private nameChanged = (event: ChangeEvent<HTMLInputElement>) => {
+		this.setState({ name: event.target.value });
+	}
+
 	public componentDidMount = () => {
 		window.dispatchEvent(new Event('resize'));
 	}
@@ -71,9 +75,7 @@ export default class ShaderEditor extends Component<Props, State> {
 		return (
 			<div className='shader-editor'>
 				<div className='header'>Name</div>
-				<div contentEditable={true} className='name-editor'>
-					{this.state.name}
-				</div>
+				<input type='text' className='name-editor' value={this.state.name} onChange={this.nameChanged} />
 				<div className='header'>Vertex shader</div>
 				<AceEditor
 					mode='glsl'
