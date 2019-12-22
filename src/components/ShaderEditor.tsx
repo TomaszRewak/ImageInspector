@@ -59,6 +59,10 @@ export default class ShaderEditor extends Component<Props, State> {
 		this.setState({ fragmentShaderSource, compiled: false });
 	}
 
+	public componentDidMount = () => {
+		window.dispatchEvent(new Event('resize'));
+	}
+
 	private get shader() {
 		return new Shader(this.state.name, this.state.vertexShaderSource, this.state.fragmentShaderSource);
 	}
