@@ -75,7 +75,7 @@
 }
 
 .layer-data>.layer-values>.layer-value.placeholder {
-	color: rgb(234, 234, 234);
+	color: rgba(0, 0, 0, 0.1);
 }
 
 .add-layer-button {

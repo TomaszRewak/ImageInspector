@@ -12,8 +12,8 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	-webkit-clip-path: url(#svgStars);
-	clip-path: url(#svgStars);
+	-webkit-clip-path: url(#svg-circle);
+	clip-path: url(#svg-circle);
 }
 
 .layer-mask>svg clipPath circle {

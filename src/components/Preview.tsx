@@ -34,8 +34,8 @@ export default class Preview extends Component<Props, State>
 
 	private mouseMoved(event: MouseEvent) {
 		var rect = (event.target as any).getBoundingClientRect();
-		var x = event.clientX - rect.left;
-		var y = event.clientY - rect.top;
+		var x = Math.round(event.clientX - rect.left);
+		var y = Math.round(event.clientY - rect.top);
 
 		this.setState({ x, y })
 
@@ -77,7 +77,7 @@ export default class Preview extends Component<Props, State>
 							<LayerPreview layer={overlay} />
 							<svg width='0' height='0'>
 								<defs>
-									<clipPath id='svgStars'>
+									<clipPath id='svg-circle'>
 										<rect x='-1' y='-1' width='1' height='1' />
 										<circle r={radius} cx={this.state.x} cy={this.state.y} />
 										<rect x={this.props.main.width} y={this.props.main.height} width='1' height='1' />

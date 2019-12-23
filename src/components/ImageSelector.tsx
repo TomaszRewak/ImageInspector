@@ -15,7 +15,7 @@ export class ImageSelector extends Component<Props, State> {
 		return (
 			<div className="file-form">
 				<label htmlFor="hidden-file-button" className="ui primary button">
-					Open file
+					Load image
 					</label>
 				<input type="file" id="hidden-file-button" onChange={this._fileSelected} style={{ display: 'none' }} />
 			</div>

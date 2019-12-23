@@ -27,7 +27,7 @@ export default class LayerPreview extends Component<Props, State>
 
 	public render(): React.ReactNode {
 		return (
-			<div style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+			<div style={{ top: 0, left: 0, pointerEvents: 'none' }}>
 				<canvas ref='canvas' />
 			</div>
 		);
