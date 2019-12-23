@@ -5,6 +5,11 @@
 	align-items: center;
 }
 
-.menu > * {
+.menu>div {
 	margin: 0 10px;
+	cursor: pointer;
+}
+
+.file-form>label {
+	cursor: pointer;
 }

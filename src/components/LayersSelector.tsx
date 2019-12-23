@@ -5,7 +5,7 @@ import loadImage from '../lib/ImageLoader';
 type Props = { selected: (image: RasterImage) => void };
 type State = {};
 
-export class ImageSelector extends Component<Props, State> {
+export class LayersSelector extends Component<Props, State> {
 	private _fileSelected = (event: React.FormEvent<HTMLInputElement>) => {
 		if (event.currentTarget.files == null) throw Error("No file selected");
 		loadImage(event.currentTarget.files[0]).then(this.props.selected);
