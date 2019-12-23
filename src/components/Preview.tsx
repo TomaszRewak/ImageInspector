@@ -87,7 +87,11 @@ export default class Preview extends Component<Props, State>
 						</div>
 					}
 					{this.state.mouseOver &&
-						<Crosshair x={this.state.x} y={this.state.y} />
+						<Crosshair
+							x={this.state.x}
+							y={this.state.y}
+							width={this.props.main.width}
+							height={this.props.main.height} />
 					}
 				</div>
 			</div>
