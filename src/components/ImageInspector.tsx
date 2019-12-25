@@ -39,6 +39,14 @@ export default class ImageInspector extends Component<Props, State>
 		});
 	}
 
+	private shadersSelected = (shaders: Shader[]) => {
+		this.setState({
+			layers: shaders.map(shader => new Layer(this.state.baseImage, shader)),
+			selectedLayer: 0,
+			editedLayer: undefined
+		})
+	}
+
 	private mouseMoved = (position: { x: number, y: number } | undefined) => {
 		this.setState({ position });
 	}
@@ -75,7 +83,9 @@ export default class ImageInspector extends Component<Props, State>
 		return (
 			<div className='image-inspector fill'>
 				<Menu
-					imageSelected={this.imageSelected} />
+					imageSelected={this.imageSelected}
+					shadersSelected={this.shadersSelected}
+					layers={this.state.layers} />
 				{!!this.state.editedLayer &&
 					<ShaderEditor
 						key={this.state.editedLayer}
