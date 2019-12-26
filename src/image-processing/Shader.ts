@@ -22,19 +22,22 @@ function fragmentShader(algorithm: string) {
 /**/ varying vec4 canvasPosition;
 /**/ varying vec2 texturePosition;
 /**/
-/**/ vec4 colorAt(float x, float y)
-/**/ {
-/**/ 	return texture2D(uSampler, vec2(x / uSize.x, y / uSize.y));
-/**/ }
+/**/ vec4 colorAt(float x, float y);
 
-vec4 calculateValue(vec2 position)
+vec4 calculateValue(float x, float y)
 {
 ${algorithm}
 }
 
 /**/ void main() {
-/**/ 	vec2 position = vec2(texturePosition.x * uSize.x, texturePosition.y * uSize.y);
-/**/ 	gl_FragColor = calculateValue(position);
+/**/ 	gl_FragColor = calculateValue(
+/**/ 		texturePosition.x * uSize.x, 
+/**/ 		texturePosition.y * uSize.y);
+/**/ }
+/**/
+/**/ vec4 colorAt(float x, float y)
+/**/ {
+/**/ 	return texture2D(uSampler, vec2(x / uSize.x, y / uSize.y));
 /**/ }`;
 }
 
@@ -53,7 +56,7 @@ export default class Shader {
 		return new Shader(
 			"New layer",
 			vertexShader,
-			fragmentShader('\t// Put your code here\n\t// return colorAt(position.x, position.y);')
+			fragmentShader('\t// Put your code here\n\t// return colorAt(x, y);')
 		)
 	}
 
@@ -61,7 +64,7 @@ export default class Shader {
 		return new Shader(
 			'Base image',
 			vertexShader,
-			fragmentShader('\treturn colorAt(position.x, position.y);')
+			fragmentShader('\treturn colorAt(x, y);')
 		);
 	}
 
@@ -70,8 +73,8 @@ export default class Shader {
 			'Vertical line detector',
 			vertexShader,
 			fragmentShader(
-				`	vec4 sample1 = colorAt(position.x - 1.0, position.y);
-	vec4 sample2 = colorAt(position.x + 1.0, position.y);
+				`	vec4 sample1 = colorAt(x - 1.0, y);
+	vec4 sample2 = colorAt(x + 1.0, y);
 
 	float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
@@ -88,8 +91,8 @@ export default class Shader {
 			'Horizontal line detector',
 			vertexShader,
 			fragmentShader(
-				`	vec4 sample1 = colorAt(position.x, position.y - 1.0);
-	vec4 sample2 = colorAt(position.x, position.y + 1.0);
+				`	vec4 sample1 = colorAt(x, y - 1.0);
+	vec4 sample2 = colorAt(x, y + 1.0);
 
 	float diff = abs(sample1.r + sample1.g + sample1.b - sample2.r - sample2.g - sample2.b) / 3.0;
 
