@@ -37,6 +37,8 @@ export default class ShaderEditor extends Component<Props, State> {
 			this.setState({ error: layer.renderingError, compiled: false });
 		else
 			this.setState({ error: undefined, compiled: true });
+
+		layer.dispose();
 	}
 
 	private save = () => {

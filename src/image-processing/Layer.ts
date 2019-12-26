@@ -67,4 +67,11 @@ export default class Layer {
 			b: this._data[index + 2]
 		}
 	}
+
+	public dispose()
+	{
+		var loseContext = this._context.getExtension('WEBGL_lose_context');
+		if (loseContext)
+			loseContext.loseContext();
+	}
 }

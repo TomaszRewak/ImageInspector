@@ -79,6 +79,11 @@ export default class ImageInspector extends Component<Props, State>
 		})
 	}
 
+	public componentDidUpdate = (prevProps: Props, prevState: State) => {
+		for (const layer of prevState.layers.filter(l1 => this.state.layers.every(l2 => l1 != l2)))
+			layer.dispose();
+	}
+
 	public render(): React.ReactNode {
 		return (
 			<div className='image-inspector fill'>
