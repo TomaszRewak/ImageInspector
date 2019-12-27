@@ -42,7 +42,9 @@ export default class Layers extends Component<Props, State>
 						isDisabled={!!(this.props.editedLayer && key != this.props.editedLayer)}
 						onSelected={this.selected}
 						onEdit={this.edit} />)}
-				<div className='add-layer-button' onClick={this.props.onAdd}>Add layer</div>
+				{this.props.layers.length < 8 &&
+					<div className='add-layer-button' onClick={this.props.onAdd}>Add layer</div>
+				}
 			</div>
 		);
 	}
