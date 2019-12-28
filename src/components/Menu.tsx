@@ -49,6 +49,8 @@ export default class Menu extends Component<Props, State>
 					<input type="file" id="hidden-layers-button" onChange={this._shadersSelected} style={{ display: 'none' }} onClick={this._clrearFile} />
 				</div>
 				<a href={download} download='layers.json'>Save layers</a>
+				<a href='https://github.com/TomaszRewak/ImageInspector' className='external first'>github</a>
+				<a href='https://www.linkedin.com/in/tomaszrewak/' className='external'>linkedIn</a>
 			</div>
 		);
 	}
